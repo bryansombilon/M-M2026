@@ -1,0 +1,6 @@
+{
+  "name": "Makers & Movers 2026 Mission Control",
+  "description": "High-tech event tracker dashboard for the Makers & Movers 2026 event. Features real-time schedule tracking, multi-timezone clocks, and LED screen previews.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}

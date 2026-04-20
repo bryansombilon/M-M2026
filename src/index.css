@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-heading: "Outfit", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  
+  --color-purple-950: #0a041a; /* Deepest Purple/Black */
+  --color-purple-900: #140b2e; /* Surface Low */
+  --color-purple-800: #1e1245; /* Surface Mid */
+  --color-purple-700: #2a1b5c; /* Surface High */
+  --color-purple-600: #4c2fb3; /* Primary */
+  --color-purple-500: #a78bfa; /* Light Purple Accent (Vite/Lavender) */
+  --color-purple-400: #c4b5fd; /* Soft Accent */
+  --color-purple-300: #ddd6fe; /* Very Light Accent */
+  --color-rose-500: #fb7185; /* Alert */
+}
+
+@layer base {
+  body {
+    @apply bg-purple-950 text-purple-50 font-sans antialiased selection:bg-purple-500/30 selection:text-white;
+  }
+}
+
+@layer components {
+  .dashboard-container {
+    @apply min-h-screen grid grid-cols-12 gap-6 p-6 lg:p-8;
+  }
+
+  /* Polished Card with Glassmorphism */
+  .modern-card {
+    @apply bg-purple-900/40 backdrop-blur-md border border-purple-500/10 rounded-2xl p-6 shadow-2xl;
+    @apply hover:border-purple-500/20 transition-all duration-300;
+  }
+
+  .accent-glow {
+    @apply absolute -inset-0.5 bg-gradient-to-r from-purple-600 to-purple-400 opacity-20 blur-2xl -z-10 rounded-full;
+  }
+
+  /* Typography Utilities */
+  .heading-primary {
+    @apply font-heading text-4xl font-bold tracking-tight text-white;
+  }
+
+  .label-mono {
+    @apply font-mono text-[10px] uppercase tracking-[0.2em] text-purple-400 font-bold;
+  }
+
+  /* Scrollbar Customization */
+  ::-webkit-scrollbar {
+    @apply w-1.5 h-1.5;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-purple-500/20 rounded-full hover:bg-purple-500/40;
+  }
+}
+
+/* Animations */
+@keyframes pulse-soft {
+  0%, 100% { opacity: 0.2; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(1.05); }
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
