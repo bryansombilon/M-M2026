@@ -326,40 +326,34 @@ function LEDPreview({ session, onMediaClick }: { session: Session | null, onMedi
   }, [session?.id]); // Reset sync on session change
 
   return (
-    <div className="modern-card p-6 flex flex-col gap-4">
+    <div className="modern-card p-4 h-full flex flex-col gap-3">
       <div className="flex items-center justify-between">
-        <div className="flex gap-3 items-center">
-          <div className="p-2 bg-purple-500/10 rounded-lg">
-            <Monitor className="w-4 h-4 text-purple-400" />
-          </div>
-          <h2 className="text-xs font-bold uppercase tracking-widest text-white/80">Stage LED Simulation</h2>
+        <div className="flex gap-2 items-center">
+          <Monitor className="w-3 h-3 text-purple-400" />
+          <h2 className="text-[9px] font-bold uppercase tracking-widest text-white/70">Stage LED Simulation</h2>
         </div>
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2">
-            <span className="text-[9px] font-mono text-purple-400 font-bold tracking-tighter">SYNC_LOCK</span>
-            <div className="w-1.5 h-1.5 rounded-full bg-purple-400 shadow-[0_0_8px_rgba(167,139,250,0.5)]"></div>
-          </div>
-          <div className="text-[10px] font-mono text-purple-400 font-bold border-l border-purple-500/20 pl-4">SIGNAL: 4K HDR</div>
+        <div className="flex items-center gap-2">
+          <span className="text-[8px] font-mono text-purple-500">SYNC_LOCK</span>
+          <div className="w-1 h-1 rounded-full bg-purple-400"></div>
         </div>
       </div>
       
-      <div className="flex justify-center items-end gap-3 h-[280px] w-full bg-purple-950/50 rounded-2xl p-6 border border-purple-500/10 relative overflow-hidden shadow-inner">
+      <div className="flex-1 flex justify-center items-end gap-2 w-full bg-black/40 rounded-xl p-4 border border-white/5 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-purple-400/5 via-transparent to-transparent pointer-events-none"></div>
         
         {/* Left Wing */}
-        <div className="relative h-full aspect-[2/3] ring-1 ring-purple-500/30 rounded-lg overflow-hidden shadow-[0_0_30px_rgba(139,92,246,0.1)]">
-          <LEDDisplay media={session?.led.left || []} label="LW PORTR" sharedTick={tick} onClick={onMediaClick} />
+        <div className="relative h-[80%] aspect-[2/3] ring-1 ring-white/10 rounded-md overflow-hidden bg-black">
+          <LEDDisplay media={session?.led.left || []} label="LW" sharedTick={tick} onClick={onMediaClick} />
         </div>
         
         {/* Center */}
-        <div className="relative h-[90%] aspect-[5.76/2.34] ring-1 ring-purple-500/30 rounded-lg overflow-hidden shadow-[0_0_50px_rgba(139,92,246,0.15)] bg-black">
-          <LEDDisplay media={session?.led.center || []} label="CENTER MAIN" sharedTick={tick} onClick={onMediaClick} />
-          <div className="absolute inset-0 pointer-events-none border border-white/5 bg-gradient-to-t from-black/20 to-transparent"></div>
+        <div className="relative h-[70%] aspect-[5.76/2.34] ring-1 ring-white/10 rounded-md overflow-hidden bg-black">
+          <LEDDisplay media={session?.led.center || []} label="CENTER" sharedTick={tick} onClick={onMediaClick} />
         </div>
         
         {/* Right Wing */}
-        <div className="relative h-full aspect-[2/3] ring-1 ring-purple-500/30 rounded-lg overflow-hidden shadow-[0_0_30px_rgba(139,92,246,0.1)]">
-          <LEDDisplay media={session?.led.right || []} label="RW PORTR" sharedTick={tick} onClick={onMediaClick} />
+        <div className="relative h-[80%] aspect-[2/3] ring-1 ring-white/10 rounded-md overflow-hidden bg-black">
+          <LEDDisplay media={session?.led.right || []} label="RW" sharedTick={tick} onClick={onMediaClick} />
         </div>
       </div>
     </div>
@@ -407,100 +401,98 @@ function SessionProgress({ current, next }: { current: Session | null, next: Ses
     return `${hours > 0 ? hours + 'h ' : ''}${mins}m ${secs}s`;
   }, [next, now]);
 
+  const timeToEnd = useMemo(() => {
+    if (!current) return null;
+    const [h, m] = current.endTime.split(':').map(Number);
+    const target = new Date(now);
+    target.setHours(h, m, 0);
+    
+    const diff = target.getTime() - now.getTime();
+    if (diff < 0) return '00:00';
+    
+    const mins = Math.floor(diff / 60000);
+    const secs = Math.floor((diff % 60000) / 1000);
+    
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  }, [current, now]);
+
   return (
-    <div className="lg:col-span-2 modern-card p-8 relative overflow-hidden">
-      <div className="accent-glow opacity-10"></div>
+    <div className="modern-card p-5 h-full relative overflow-hidden flex flex-col justify-between">
+      <div className="accent-glow opacity-5"></div>
       
       {!current && next ? (
-        <div className="absolute inset-0 bg-purple-900/40 backdrop-blur-sm z-10 flex flex-col items-center justify-center p-8 text-center">
-          <div className="p-4 bg-purple-500/10 rounded-2xl border border-purple-500/20 mb-6 relative">
-            <Zap className="w-8 h-8 text-purple-400 animate-pulse" />
-            <div className="absolute inset-0 blur-lg bg-purple-400/20"></div>
-          </div>
-          <span className="label-mono text-purple-400 mb-2">Sequence Initiating In</span>
-          <div className="text-6xl font-heading font-black text-white tracking-tighter tabular-nums mb-4">
+        <div className="absolute inset-0 bg-black/80 backdrop-blur-md z-10 flex flex-col items-center justify-center p-4 text-center">
+          <Zap className="w-6 h-6 text-purple-400 animate-pulse mb-3" />
+          <span className="label-mono text-[8px] text-purple-400 mb-1">Sequence Pending</span>
+          <div className="text-4xl font-heading font-black text-white tracking-tighter tabular-nums mb-2">
             {timeToNext}
           </div>
-          <h3 className="text-xl font-bold text-white/90 mb-2">Upcoming: {next.title}</h3>
-          <p className="text-xs text-purple-400 uppercase tracking-widest font-bold">Location: {next.location}</p>
+          <h3 className="text-sm font-bold text-white/90 truncate max-w-full px-4">{next.title}</h3>
         </div>
       ) : null}
 
-      <div className="flex flex-col md:flex-row justify-between items-start gap-8">
-        <div className="flex-1 space-y-4">
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2 bg-purple-500/10 border border-purple-500/30 px-3 py-1 rounded-full">
-              <div className="w-2 h-2 rounded-full bg-purple-400 animate-pulse"></div>
-              <span className="text-[10px] font-bold uppercase tracking-widest text-purple-300">Live Mission</span>
+      <div className="flex justify-between items-start gap-4">
+        <div className="flex-1 space-y-2 overflow-hidden">
+          <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5 bg-purple-500/10 border border-purple-500/30 px-2 py-0.5 rounded-full">
+              <div className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse"></div>
+              <span className="text-[8px] font-bold uppercase tracking-widest text-purple-300 whitespace-nowrap">Live Mission</span>
             </div>
-            {!current && next && (
-              <div className="flex items-center gap-2 bg-amber-500/10 border border-amber-500/30 text-amber-500 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest animate-pulse">
-                <ClockIcon className="w-3 h-3" />
-                <span>Sequence Pending</span>
-              </div>
-            )}
-            {current?.alerts?.map((alert, i) => (
-              <div key={i} className="flex items-center gap-2 bg-rose-500/10 border border-rose-500/30 text-rose-500 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest">
-                <AlertCircle className="w-3 h-3" />
-                <span>{alert}</span>
-              </div>
-            ))}
           </div>
 
-          <h1 className="text-3xl font-heading font-bold tracking-tight text-white leading-tight">
-            {current?.title || 'System Standby - No Active Session'}
-          </h1>
+          <div className="flex items-center gap-3 flex-wrap">
+            <h1 className="text-xl font-heading font-bold tracking-tight text-white leading-tight truncate max-w-[70%]">
+              {current?.title || 'System Standby'}
+            </h1>
+            {current && (
+              <div className="px-3 py-1 bg-purple-600/30 border border-purple-400/40 rounded-lg shadow-[0_0_15px_rgba(147,112,219,0.3)] animate-pulse-soft">
+                <span className="text-[11px] font-mono font-black text-purple-300 tabular-nums">ENDS: {timeToEnd}</span>
+              </div>
+            )}
+          </div>
 
-          <div className="flex flex-wrap items-center gap-5 text-purple-300 text-[11px] font-medium uppercase tracking-widest">
-            <div className="flex items-center gap-2 bg-purple-500/5 px-2.5 py-1.5 rounded-lg border border-purple-500/10">
-              <CalendarIcon className="w-3.5 h-3.5 text-purple-500" />
-              <span>{current?.date || 'UNSCHEDULED'}</span>
-            </div>
-            <div className="flex items-center gap-2 bg-purple-500/5 px-2.5 py-1.5 rounded-lg border border-purple-500/10">
-              <MapPin className="w-3.5 h-3.5 text-purple-500" />
-              <span>{current?.location || 'BASE'}</span>
+          <div className="flex flex-wrap items-center gap-3 text-purple-300 text-[9px] font-medium uppercase tracking-widest">
+            <div className="flex items-center gap-1.5 bg-white/5 px-2 py-1 rounded-md">
+              <MapPin className="w-3 h-3 text-purple-500" />
+              <span className="truncate max-w-[120px]">{current?.location || 'BASE'}</span>
             </div>
             {current?.speaker && (
-              <div className="flex items-center gap-2 bg-purple-500/5 px-2.5 py-1.5 rounded-lg border border-purple-500/10">
-                <User className="w-3.5 h-3.5 text-purple-500" />
-                <span>{current.speaker}</span>
+              <div className="flex items-center gap-1.5 bg-white/5 px-2 py-1 rounded-md">
+                <User className="w-3 h-3 text-purple-500" />
+                <span className="truncate max-w-[120px]">{current.speaker}</span>
               </div>
             )}
           </div>
         </div>
 
-        <div className="flex flex-col items-end text-right min-w-[140px]">
-          <span className="text-[10px] uppercase tracking-widest text-purple-400 font-bold mb-1">Commence In</span>
-          <div className="text-3xl font-heading font-bold text-purple-400 tabular-nums">{timeToNext}</div>
-          <div className="w-full h-0.5 bg-purple-500/20 mt-2 rounded-full overflow-hidden">
-             <motion.div 
-               className="h-full bg-purple-400"
-               animate={{ x: ["-100%", "100%"] }}
-               transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-             />
+        <div className="flex flex-col items-end text-right shrink-0">
+          <span className="text-[8px] uppercase tracking-widest text-purple-500 font-bold mb-0.5">
+            {current ? 'Ends In' : 'Time to Next'}
+          </span>
+          <div className="text-2xl font-heading font-bold text-purple-500 tabular-nums leading-none">
+            {current ? timeToEnd : timeToNext}
           </div>
         </div>
       </div>
       
-      <div className="mt-8 space-y-4">
+      <div className="mt-4 space-y-2 shrink-0">
         <div className="flex justify-between items-end">
           <div className="flex flex-col">
-            <span className="text-[10px] font-mono text-purple-500 uppercase tracking-widest font-bold">Start Sequence</span>
-            <span className="text-lg font-heading font-bold text-white/90">{current?.startTime || '--:--'}</span>
+            <span className="text-[8px] font-mono text-purple-500 uppercase tracking-widest font-bold">Start</span>
+            <span className="text-sm font-heading font-bold text-white/90">{current?.startTime || '--:--'}</span>
           </div>
           <div className="flex flex-col items-center">
-            <span className="text-xl font-heading font-bold text-purple-400">{Math.round(progress)}%</span>
-            <span className="text-[9px] font-mono text-purple-500 uppercase tracking-tighter">Transmission Progress</span>
+            <span className="text-xl font-heading font-black text-purple-400 leading-none">{Math.round(progress)}%</span>
           </div>
           <div className="flex flex-col items-end">
-            <span className="text-[10px] font-mono text-purple-500 uppercase tracking-widest font-bold">End Sequence</span>
-            <span className="text-lg font-heading font-bold text-white/90">{current?.endTime || '--:--'}</span>
+            <span className="text-[8px] font-mono text-purple-500 uppercase tracking-widest font-bold">End {current && <span className="text-[7px] text-purple-600 ml-1">({timeToEnd})</span>}</span>
+            <span className="text-sm font-heading font-bold text-white/90">{current?.endTime || '--:--'}</span>
           </div>
         </div>
         
-        <div className="h-3 w-full bg-purple-950/60 rounded-full overflow-hidden border border-purple-500/20 p-[2px] shadow-inner">
+        <div className="h-2 w-full bg-black/60 rounded-full overflow-hidden border border-white/5 p-[1.5px] shadow-inner">
           <motion.div 
-            className="h-full bg-gradient-to-r from-purple-600 via-purple-500 to-purple-400 rounded-full shadow-[0_0_15px_rgba(167,139,250,0.5)]"
+            className="h-full bg-gradient-to-r from-purple-700 via-purple-500 to-purple-400 rounded-full"
             initial={{ width: 0 }}
             animate={{ width: `${progress}%` }}
             transition={{ type: 'spring', damping: 25, stiffness: 50 }}
@@ -607,40 +599,40 @@ export default function App() {
         <div className="absolute bottom-[-10%] left-[-10%] w-[40%] h-[40%] bg-purple-500/10 blur-[120px] rounded-full"></div>
       </div>
 
-      <header className="p-6 border-b border-purple-500/10 bg-purple-950/80 backdrop-blur-md sticky top-0 z-50">
-        <div className="max-w-[1800px] mx-auto flex items-center justify-between gap-8">
-          <div className="flex gap-4 items-center">
+      <header className="p-3 border-b border-white/5 bg-purple-950/80 backdrop-blur-md sticky top-0 z-50">
+        <div className="max-w-[1800px] mx-auto flex items-center justify-between gap-4">
+          <div className="flex gap-2 items-center">
             <TimeDisplay label="ZURICH (CET)" timezone="Europe/Zurich" />
             <TimeDisplay label="MANILA (PHT)" timezone="Asia/Manila" />
             <GlobalCountdown targetDate={new Date(2026, 3, 22, 16, 0, 0)} />
             
             {/* Simulation Controls */}
-            <div className={`flex flex-col gap-1.5 p-3 rounded-2xl border transition-all ${isSimulating ? 'bg-amber-500/10 border-amber-500/30 shadow-[0_0_15px_rgba(245,158,11,0.1)]' : 'bg-purple-900/20 border-purple-500/10 hover:border-purple-500/20'}`}>
-              <div className="flex items-center justify-between gap-4">
-                <span className="text-[8px] font-black uppercase tracking-[0.2em] text-purple-400">Simulation Warp</span>
+            <div className={`flex flex-col gap-1 p-2 rounded-xl border transition-all ${isSimulating ? 'bg-amber-500/10 border-amber-500/30 shadow-[0_0_15px_rgba(245,158,11,0.1)]' : 'bg-purple-900/20 border-white/5 hover:border-purple-500/20'}`}>
+              <div className="flex items-center justify-between gap-3">
+                <span className="text-[7px] font-black uppercase tracking-[0.2em] text-purple-400">Sim Warp</span>
                 <button 
                   onClick={() => setIsSimulating(!isSimulating)}
-                  className={`w-8 h-4 rounded-full relative transition-colors ${isSimulating ? 'bg-amber-500' : 'bg-purple-700'}`}
+                  className={`w-7 h-3.5 rounded-full relative transition-colors ${isSimulating ? 'bg-amber-500' : 'bg-purple-800'}`}
                 >
                   <motion.div 
-                    animate={{ x: isSimulating ? 16 : 2 }}
-                    className="absolute top-1 w-2 h-2 bg-white rounded-full"
+                    animate={{ x: isSimulating ? 14 : 2 }}
+                    className="absolute top-0.5 w-2.5 h-2.5 bg-white rounded-full"
                   />
                 </button>
               </div>
               {isSimulating && (
-                <div className="flex gap-2">
+                <div className="flex gap-1.5">
                   <input 
                     type="date" 
                     value={simDate}
                     onChange={(e) => setSimDate(e.target.value)}
-                    className="bg-black/40 border border-amber-500/30 rounded px-2 py-0.5 text-[10px] text-white focus:outline-none focus:border-amber-500"
+                    className="bg-black/40 border border-amber-500/30 rounded px-1.5 py-0.5 text-[9px] text-white focus:outline-none"
                   />
                   <input 
                     type="time" 
                     value={simTimeInput}
                     onChange={(e) => setSimTimeInput(e.target.value)}
-                    className="bg-black/40 border border-amber-500/30 rounded px-2 py-0.5 text-[10px] text-white focus:outline-none focus:border-amber-500"
+                    className="bg-black/40 border border-amber-500/30 rounded px-1.5 py-0.5 text-[9px] text-white focus:outline-none"
                   />
                 </div>
               )}
@@ -648,28 +640,27 @@ export default function App() {
           </div>
 
           <div className="flex flex-col items-center text-center">
-            <div className="flex items-center gap-3 bg-purple-900/50 px-4 py-1.5 rounded-full border border-purple-500/20 mb-2">
-              <Activity className="w-3.5 h-3.5 text-purple-400 animate-pulse" />
-              <span className="text-[11px] text-purple-200 uppercase font-black tracking-[0.2em]">MISSION CONTROL LIVE</span>
+            <div className="flex items-center gap-2 bg-purple-900/50 px-3 py-1 rounded-full border border-white/5 mb-1">
+              <Activity className="w-3 h-3 text-purple-400 animate-pulse" />
+              <span className="text-[9px] text-purple-200 uppercase font-black tracking-[0.2em]">MISSION CONTROL</span>
             </div>
-            <h1 className="text-2xl font-heading font-black text-white tracking-tight">MAKERS & MOVERS <span className="text-purple-600 italic">2026</span></h1>
-            <p className="text-[10px] text-purple-500 font-bold tracking-[0.4em] uppercase mt-1">Operational Dashboard</p>
+            <h1 className="text-lg font-heading font-black text-white tracking-tight leading-none">MAKERS & MOVERS <span className="text-purple-500 italic">2026</span></h1>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             <a 
               href="https://admin.sli.do/event/pPp4vbXYWznjkWXm43MScN/polls" 
               target="_blank" 
               rel="noreferrer"
-              className="px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-[11px] font-black uppercase rounded-xl transition-all shadow-[0_0_20px_rgba(139,92,246,0.2)] flex items-center gap-2 group"
+              className="px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white text-[9px] font-black uppercase rounded-lg transition-all shadow-[0_0_15px_rgba(139,92,246,0.1)] flex items-center gap-1.5 group"
             >
-              Slido Admin <ExternalLink className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              Slido <ExternalLink className="w-2.5 h-2.5" />
             </a>
             <a 
               href="https://admin.myconnector.ro/" 
               target="_blank" 
               rel="noreferrer"
-              className="px-6 py-3 bg-purple-900 hover:bg-purple-800 text-purple-200 text-[11px] font-black uppercase rounded-xl transition-all border border-purple-500/20"
+              className="px-4 py-2 bg-purple-900 hover:bg-purple-800 text-purple-300 text-[9px] font-black uppercase rounded-lg transition-all border border-white/5"
             >
               Platform
             </a>
@@ -677,21 +668,21 @@ export default function App() {
         </div>
       </header>
 
-      <main className="flex-1 p-6 lg:p-8 max-w-[1800px] mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-8 overflow-hidden">
+      <main className="flex-1 p-4 max-w-[1800px] mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-4 overflow-hidden">
         {/* Left: Schedule Feed */}
         <div className="lg:col-span-3 h-full flex flex-col overflow-hidden">
-          <div className="modern-card flex-1 flex flex-col p-6 overflow-hidden">
-            <div className="flex justify-between items-center mb-6">
+          <div className="modern-card flex-1 flex flex-col p-4 overflow-hidden">
+            <div className="flex justify-between items-center mb-4">
               <div className="flex gap-2 items-center">
-                <LayoutIcon className="w-4 h-4 text-purple-400" />
-                <h2 className="text-xs font-bold uppercase tracking-widest text-white/80">Event Sequence</h2>
+                <LayoutIcon className="w-3.5 h-3.5 text-purple-400" />
+                <h2 className="text-[10px] font-bold uppercase tracking-widest text-white/70">Sequence</h2>
               </div>
-              <div className="flex gap-1 bg-purple-950 p-1 rounded-xl border border-purple-500/10">
+              <div className="flex gap-1 bg-black/40 p-1 rounded-lg border border-white/5">
                 {[1, 2, 3].map(d => (
                   <button 
                     key={d}
                     onClick={() => setScheduledDay(d)}
-                    className={`px-3 py-1 rounded-lg text-[10px] font-bold transition-all ${scheduledDay === d ? 'bg-purple-600 text-white shadow-lg shadow-purple-500/20' : 'text-purple-500 hover:text-purple-300'}`}
+                    className={`px-2 py-0.5 rounded-md text-[9px] font-bold transition-all ${scheduledDay === d ? 'bg-purple-600 text-white' : 'text-purple-500 hover:text-purple-300'}`}
                   >
                     D{d}
                   </button>
@@ -699,7 +690,7 @@ export default function App() {
               </div>
             </div>
             
-            <div className="flex-1 overflow-y-auto pr-2 space-y-3 custom-scrollbar">
+            <div className="flex-1 overflow-y-auto pr-1 space-y-2 custom-scrollbar">
               <AnimatePresence mode="popLayout">
                 {dailySchedule.map((session, index) => {
                   const isCurrent = currentSession?.id === session.id;
@@ -708,24 +699,15 @@ export default function App() {
                   return (
                     <motion.div 
                       key={session.id}
-                      initial={{ opacity: 0, x: -20 }}
+                      initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.05 }}
+                      transition={{ delay: index * 0.02 }}
                       onClick={() => setSelectedSession(session)}
-                      className={`p-4 rounded-xl border transition-all cursor-pointer relative group ${isCurrent ? 'bg-purple-500/10 border-purple-400/40 shadow-[0_0_20px_rgba(167,139,250,0.1)]' : 'bg-purple-900/20 border-purple-500/5 hover:border-purple-500/20'} ${isPast ? 'opacity-40' : ''}`}
+                      className={`p-3 rounded-lg border transition-all cursor-pointer relative group ${isCurrent ? 'bg-purple-500/10 border-purple-400/30' : 'bg-purple-900/10 border-white/5 hover:border-purple-500/10'} ${isPast ? 'opacity-30' : ''}`}
                     >
-                      {isCurrent && (
-                        <div className="absolute right-3 top-3">
-                           <div className="w-2 h-2 rounded-full bg-purple-400 animate-ping"></div>
-                        </div>
-                      )}
-                      <div className="flex flex-col gap-1.5">
-                        <span className={`label-mono text-[9px] ${isCurrent ? 'text-purple-400' : 'text-purple-500'}`}>{session.startTime} — {session.endTime}</span>
-                        <h3 className={`text-xs font-bold leading-tight ${isCurrent ? 'text-white' : 'text-purple-200'}`}>{session.title}</h3>
-                        <div className="flex items-center gap-2 text-[9px] text-purple-400 uppercase font-semibold">
-                          <MapPin className="w-3 h-3" />
-                          <span>{session.location}</span>
-                        </div>
+                      <div className="flex flex-col gap-1">
+                        <span className={`label-mono text-[8px] ${isCurrent ? 'text-purple-400' : 'text-purple-600'}`}>{session.startTime} — {session.endTime}</span>
+                        <h3 className={`text-[11px] font-bold leading-tight ${isCurrent ? 'text-white' : 'text-purple-200'}`}>{session.title}</h3>
                       </div>
                     </motion.div>
                   );
@@ -736,69 +718,45 @@ export default function App() {
         </div>
 
         {/* Center/Right: Detailed Monitors */}
-        <div className="lg:col-span-9 flex flex-col gap-8 h-full overflow-y-auto custom-scrollbar pr-2">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 shrink-0">
-            <SessionProgress current={currentSession} next={upcomingSessions[0] || null} />
+        <div className="lg:col-span-9 flex flex-col gap-4 overflow-hidden h-full">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 shrink-0">
+            <div className="lg:col-span-3">
+              <SessionProgress current={currentSession} next={upcomingSessions[0] || null} />
+            </div>
             
-            <div className="flex flex-col gap-6">
-              <div className="modern-card p-6 flex flex-col justify-center items-center gap-3 relative group flex-1">
-                <div className="accent-glow group-hover:opacity-20 transition-opacity"></div>
-                <span className="label-mono">Deployment Day</span>
-                <div className="text-7xl font-heading font-black text-white glow-text-purple">
+            <div className="flex flex-col gap-4 h-full">
+              <div className="modern-card p-4 flex flex-col justify-center items-center gap-1 relative group flex-1">
+                <div className="accent-glow group-hover:opacity-10 transition-opacity"></div>
+                <span className="label-mono text-[8px]">Deployment Day</span>
+                <div className="text-5xl font-heading font-black text-white glow-text-purple">
                   0{currentSession?.day || scheduledDay}
                 </div>
-                <div className="flex items-center gap-2 mt-4 px-4 py-1.5 bg-purple-500/10 rounded-full border border-purple-500/20">
-                  <Activity className="w-3.5 h-3.5 text-purple-400" />
-                  <span className="text-[10px] text-purple-200 font-bold uppercase tracking-widest">ACTIVE OPERATIONS</span>
-                </div>
-              </div>
-
-              <div className="modern-card p-6 flex flex-col gap-4 flex-1">
-                <div className="flex items-center gap-2">
-                  <Navigation className="w-4 h-4 text-purple-400" />
-                  <h2 className="text-xs font-bold uppercase tracking-widest text-white/80">Telemetry Logs</h2>
-                </div>
-                <div className="space-y-3 overflow-y-auto max-h-[140px]">
-                  <div className="text-[10px] flex gap-3 p-3 bg-purple-950/40 rounded-lg border-l-2 border-purple-400">
-                    <span className="text-purple-500 font-mono font-bold">
-                      {now.toLocaleTimeString('en-GB', { timeZone: 'Europe/Zurich', hour: '2-digit', minute: '2-digit', second: '2-digit' })}
-                    </span>
-                    <span className="text-purple-200 uppercase font-bold text-[9px]">Event:</span>
-                    <span className="text-purple-400">System status synchronized. 100% Signal Integrity.</span>
-                  </div>
-                  <div className="text-[10px] flex gap-3 p-3 bg-purple-950/40 rounded-lg border-l-2 border-purple-600">
-                    <span className="text-purple-500 font-mono font-bold">13:38:22</span>
-                    <span className="text-purple-200 uppercase font-bold text-[9px]">Trans:</span>
-                    <span className="text-purple-400">LED Sequence update for {upcomingSessions[0]?.title || 'Next Session'}</span>
-                  </div>
+                <div className="flex items-center gap-2 mt-2 px-3 py-1 bg-purple-500/10 rounded-full border border-white/5">
+                  <Activity className="w-2.5 h-2.5 text-purple-400 animate-pulse" />
+                  <span className="text-[9px] text-purple-200 font-bold uppercase tracking-widest leading-none">ACTIVE</span>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="min-h-[400px] shrink-0">
+          <div className="flex-1 overflow-hidden">
             <LEDPreview session={currentSession} onMediaClick={(item) => setSelectedLEDMedia(item)} />
           </div>
         </div>
       </main>
 
-      <footer className="p-6 border-t border-purple-500/10 bg-purple-950/80 backdrop-blur-md">
-        <div className="max-w-[1800px] mx-auto flex items-center justify-between text-[10px] text-purple-500 font-bold uppercase tracking-[0.3em]">
+      <footer className="p-2 border-t border-white/5 bg-black">
+        <div className="max-w-[1800px] mx-auto flex items-center justify-between text-[8px] text-purple-600 font-bold uppercase tracking-[0.3em]">
           <div className="flex items-center gap-2">
-             <span className="text-white/60">ALCOTT GLOBAL</span>
-             <span className="text-purple-800">|</span>
-             <span>MISSION CONTROL SYSTEMS 2026</span>
+             <span className="text-white/40">ALCOTT GLOBAL</span>
+             <span>MISSION CONTROL 2026</span>
           </div>
-          <div className="flex gap-10 items-center">
+          <div className="flex gap-6 items-center">
             <div className="flex items-center gap-2">
-              <div className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse"></div>
-              <span className="text-purple-300">CORE STATUS: STABLE</span>
+              <div className="w-1 h-1 rounded-full bg-purple-500"></div>
+              <span>SYSTEM: STABLE</span>
             </div>
-            <div className="flex items-center gap-2">
-              <Zap className="w-3.5 h-3.5" />
-              <span>POWER GRID: NOMINAL</span>
-            </div>
-            <span className="text-purple-800">v3.1.0-dark-purple</span>
+            <span className="text-purple-900">v3.2.0-ext-dark</span>
           </div>
         </div>
       </footer>
