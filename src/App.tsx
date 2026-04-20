@@ -108,6 +108,60 @@ function SessionDetailModal({ session, onClose }: { session: Session, onClose: (
   );
 }
 
+function LEDDetailModal({ media, onClose }: { media: LEDMedia, onClose: () => void }) {
+  return (
+    <div className="fixed inset-0 z-[110] flex items-center justify-center p-4">
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        onClick={onClose}
+        className="absolute inset-0 bg-black/90 backdrop-blur-md"
+      />
+      <motion.div 
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.9, opacity: 0 }}
+        className="relative w-full max-w-lg bg-zinc-900 border border-white/10 rounded-2xl overflow-hidden shadow-2xl flex flex-col font-mono"
+      >
+        <div className="bg-white/[0.03] p-4 flex justify-between items-center border-b border-white/5">
+          <div className="flex items-center gap-2">
+            <Monitor className="w-4 h-4 text-purple-400" />
+            <span className="text-[10px] text-white uppercase font-bold tracking-widest">Signal Source Details</span>
+          </div>
+          <button onClick={onClose} className="text-white/40 hover:text-white transition-colors">
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+        <div className="p-6 space-y-4">
+          <div className="space-y-1">
+            <span className="text-[9px] text-zinc-500 uppercase font-bold">Asset Label</span>
+            <div className="text-sm text-white bg-black/40 p-3 rounded-lg border border-white/5">{media.label}</div>
+          </div>
+          <div className="space-y-1">
+            <span className="text-[9px] text-zinc-500 uppercase font-bold">Content Type</span>
+            <div className="text-sm text-purple-400 bg-black/40 p-3 rounded-lg border border-white/5">{media.type.toUpperCase()}</div>
+          </div>
+          <div className="space-y-1">
+            <span className="text-[9px] text-zinc-500 uppercase font-bold">Primary Endpoint</span>
+            <div className="text-[10px] text-blue-400 bg-black/40 p-3 rounded-lg border border-white/5 break-all leading-relaxed uppercase">
+              {media.url}
+            </div>
+          </div>
+        </div>
+        <div className="p-4 bg-white/[0.02] flex justify-end gap-2 border-t border-white/5">
+          <button 
+            onClick={onClose}
+            className="px-4 py-2 border border-white/10 rounded font-bold text-[10px] text-white hover:bg-white/5 transition-colors uppercase"
+          >
+            Close Signal Trace
+          </button>
+        </div>
+      </motion.div>
+    </div>
+  );
+}
+
 function TimeDisplay({ label, timezone }: { label: string, timezone: string }) {
   const [time, setTime] = useState(new Date());
 
@@ -186,12 +240,20 @@ function GlobalCountdown({ targetDate }: { targetDate: Date }) {
   );
 }
 
-function LEDDisplay({ media, label, sharedTick }: { media: LEDMedia[], label: string, sharedTick: number }) {
+function LEDDisplay({ media, label, sharedTick, onClick }: { media: LEDMedia[], label: string, sharedTick: number, onClick?: (item: LEDMedia) => void }) {
+  const [isLoaded, setIsLoaded] = useState(false);
   const index = media.length > 0 ? sharedTick % media.length : 0;
   const current = media[index];
 
+  useEffect(() => {
+    setIsLoaded(false);
+  }, [current?.url]);
+
   return (
-    <div className="relative w-full h-full flex flex-col items-center justify-center overflow-hidden bg-purple-950/50">
+    <div 
+      onClick={() => current && onClick?.(current)}
+      className={`relative w-full h-full flex flex-col items-center justify-center overflow-hidden bg-purple-950/50 ${onClick ? 'cursor-pointer hover:ring-2 hover:ring-purple-400/50 transition-all' : ''}`}
+    >
       <div className="absolute top-1 left-2 text-[8px] text-purple-500 font-mono z-20 font-bold opacity-60">
         {label} {media.length > 1 && `(${index + 1}/${media.length})`}
       </div>
@@ -200,18 +262,30 @@ function LEDDisplay({ media, label, sharedTick }: { media: LEDMedia[], label: st
         <motion.div
           key={current?.url || 'empty'}
           initial={{ opacity: 0, scale: 1.05, filter: 'brightness(1.5) blur(4px)' }}
-          animate={{ opacity: 1, scale: 1, filter: 'brightness(1) blur(0px)' }}
+          animate={{ opacity: isLoaded ? 1 : 0, scale: 1, filter: 'brightness(1) blur(0px)' }}
           exit={{ opacity: 0, scale: 0.95, filter: 'brightness(0.5) blur(2px)' }}
           transition={{ duration: 1.2, ease: [0.4, 0, 0.2, 1] }}
           className="absolute inset-0 w-full h-full"
         >
           {current ? (
-            <img 
-              src={current.url} 
-              alt={current.label} 
-              className="w-full h-full object-cover"
-              referrerPolicy="no-referrer"
-            />
+            current.type === 'video' ? (
+              <div className="w-full h-full bg-black relative">
+                <iframe 
+                  src={current.url} 
+                  className="w-full h-full border-0 pointer-events-none scale-[1.3] relative z-0"
+                  allow="autoplay"
+                  onLoad={() => setIsLoaded(true)}
+                />
+              </div>
+            ) : (
+              <img 
+                src={current.url} 
+                alt={current.label} 
+                className="w-full h-full object-cover"
+                referrerPolicy="no-referrer"
+                onLoad={() => setIsLoaded(true)}
+              />
+            )
           ) : (
             <div className="w-full h-full flex items-center justify-center border-2 border-dashed border-purple-800/30">
               <Zap className="w-8 h-8 text-purple-900 animate-pulse" />
@@ -219,11 +293,20 @@ function LEDDisplay({ media, label, sharedTick }: { media: LEDMedia[], label: st
           )}
         </motion.div>
       </AnimatePresence>
+
+      {!isLoaded && current && (
+        <div className="absolute inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm z-20">
+          <div className="flex flex-col items-center gap-2">
+            <div className="w-6 h-6 border-2 border-purple-500/30 border-t-purple-400 rounded-full animate-spin" />
+            <span className="text-[7px] text-purple-400 font-mono tracking-widest uppercase">Buffering Source...</span>
+          </div>
+        </div>
+      )}
       
       {/* Scanline / Texture Overlay for consistent look */}
-      <div className="absolute inset-0 pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10 mix-blend-overlay"></div>
+      <div className="absolute inset-0 pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10 mix-blend-overlay z-10"></div>
       
-      <div className="absolute bottom-0 inset-x-0 bg-purple-950/80 backdrop-blur-md p-1.5 z-10 border-t border-purple-500/20">
+      <div className="absolute bottom-0 inset-x-0 bg-purple-950/80 backdrop-blur-md p-1.5 z-30 border-t border-purple-500/20">
         <div className="text-[8px] text-purple-400 font-mono uppercase tracking-widest text-center truncate font-bold">
           {current ? `SOURCE: ${current.label}` : 'STANDBY MODE'}
         </div>
@@ -232,7 +315,7 @@ function LEDDisplay({ media, label, sharedTick }: { media: LEDMedia[], label: st
   );
 }
 
-function LEDPreview({ session }: { session: Session | null }) {
+function LEDPreview({ session, onMediaClick }: { session: Session | null, onMediaClick?: (item: LEDMedia) => void }) {
   const [tick, setTick] = useState(0);
 
   useEffect(() => {
@@ -265,18 +348,18 @@ function LEDPreview({ session }: { session: Session | null }) {
         
         {/* Left Wing */}
         <div className="relative h-full aspect-[2/3] ring-1 ring-purple-500/30 rounded-lg overflow-hidden shadow-[0_0_30px_rgba(139,92,246,0.1)]">
-          <LEDDisplay media={session?.led.left || []} label="LW PORTR" sharedTick={tick} />
+          <LEDDisplay media={session?.led.left || []} label="LW PORTR" sharedTick={tick} onClick={onMediaClick} />
         </div>
         
         {/* Center */}
         <div className="relative h-[90%] aspect-[5.76/2.34] ring-1 ring-purple-500/30 rounded-lg overflow-hidden shadow-[0_0_50px_rgba(139,92,246,0.15)] bg-black">
-          <LEDDisplay media={session?.led.center || []} label="CENTER MAIN" sharedTick={tick} />
+          <LEDDisplay media={session?.led.center || []} label="CENTER MAIN" sharedTick={tick} onClick={onMediaClick} />
           <div className="absolute inset-0 pointer-events-none border border-white/5 bg-gradient-to-t from-black/20 to-transparent"></div>
         </div>
         
         {/* Right Wing */}
         <div className="relative h-full aspect-[2/3] ring-1 ring-purple-500/30 rounded-lg overflow-hidden shadow-[0_0_30px_rgba(139,92,246,0.1)]">
-          <LEDDisplay media={session?.led.right || []} label="RW PORTR" sharedTick={tick} />
+          <LEDDisplay media={session?.led.right || []} label="RW PORTR" sharedTick={tick} onClick={onMediaClick} />
         </div>
       </div>
     </div>
@@ -435,6 +518,7 @@ export default function App() {
   const [simTimeInput, setSimTimeInput] = useState('16:00');
   
   const [selectedSession, setSelectedSession] = useState<Session | null>(null);
+  const [selectedLEDMedia, setSelectedLEDMedia] = useState<LEDMedia | null>(null);
   const [scheduledDay, setScheduledDay] = useState(() => {
     const d = new Date();
     if (d.getDate() === 22) return 1;
@@ -516,7 +600,7 @@ export default function App() {
   }, [scheduledDay]);
 
   return (
-    <div className="min-h-screen bg-purple-950 flex flex-col font-sans selection:bg-purple-500/30 overflow-hidden">
+    <div className="h-screen bg-purple-950 flex flex-col font-sans selection:bg-purple-500/30 overflow-hidden">
       {/* Background Decorative Elements */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden -z-10">
         <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-purple-600/10 blur-[120px] rounded-full"></div>
@@ -593,9 +677,9 @@ export default function App() {
         </div>
       </header>
 
-      <main className="flex-1 p-6 lg:p-8 max-w-[1800px] mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-8 sticky bottom-0">
+      <main className="flex-1 p-6 lg:p-8 max-w-[1800px] mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-8 overflow-hidden">
         {/* Left: Schedule Feed */}
-        <div className="lg:col-span-3 flex flex-col h-full overflow-hidden">
+        <div className="lg:col-span-3 h-full flex flex-col overflow-hidden">
           <div className="modern-card flex-1 flex flex-col p-6 overflow-hidden">
             <div className="flex justify-between items-center mb-6">
               <div className="flex gap-2 items-center">
@@ -652,8 +736,8 @@ export default function App() {
         </div>
 
         {/* Center/Right: Detailed Monitors */}
-        <div className="lg:col-span-9 flex flex-col gap-8">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="lg:col-span-9 flex flex-col gap-8 h-full overflow-y-auto custom-scrollbar pr-2">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 shrink-0">
             <SessionProgress current={currentSession} next={upcomingSessions[0] || null} />
             
             <div className="flex flex-col gap-6">
@@ -692,8 +776,8 @@ export default function App() {
             </div>
           </div>
 
-          <div className="flex-1 min-h-[400px]">
-            <LEDPreview session={currentSession} />
+          <div className="min-h-[400px] shrink-0">
+            <LEDPreview session={currentSession} onMediaClick={(item) => setSelectedLEDMedia(item)} />
           </div>
         </div>
       </main>
@@ -724,6 +808,12 @@ export default function App() {
           <SessionDetailModal 
             session={selectedSession} 
             onClose={() => setSelectedSession(null)} 
+          />
+        )}
+        {selectedLEDMedia && (
+          <LEDDetailModal 
+            media={selectedLEDMedia} 
+            onClose={() => setSelectedLEDMedia(null)} 
           />
         )}
       </AnimatePresence>

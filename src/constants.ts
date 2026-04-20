@@ -144,7 +144,11 @@ export const EVENT_SCHEDULE: Session[] = [
     endTime: '09:00',
     title: 'Checking in for Day 2',
     location: 'Ground Floor - Gallery Foyer',
-    led: { center: [], left: [], right: [] }
+    led: { 
+      center: [{ type: 'image', url: getDriveUrl('1i963SifsU1DgHUziMGDK9fa_NO4fIgp3'), label: 'Static Event Banner' }],
+      left: [{ type: 'video', url: 'https://drive.google.com/file/d/1LOmJ50px3kB969ff2NNh3in4KFh_XAv0/preview', label: 'Innovators.mov' }],
+      right: [{ type: 'video', url: 'https://drive.google.com/file/d/1ZxAwjpDv_pVwimnXJHwYoS3KXyHvPpcT/preview', label: 'App Demo.mov' }]
+    }
   },
   {
     id: 'd2-1',
@@ -156,7 +160,11 @@ export const EVENT_SCHEDULE: Session[] = [
     speaker: 'Deborah Dull',
     location: 'Ground Floor - Gallery',
     details: 'Opening speech by MC Deborah Dull. High-level overview of the day.',
-    led: { center: [], left: [], right: [] }
+    led: { 
+      center: [{ type: 'image', url: getDriveUrl('1To98Q9iaR2kw8_2cAaM6RysR5fpDJqb4'), label: 'Opening' }],
+      left: [{ type: 'image', url: getDriveUrl('14plyLneLYeWkpPY1ekGqSB7tZBZf4W6E'), label: 'MC Spotlight' }],
+      right: [{ type: 'image', url: getDriveUrl('12_rG5M2QLsv_lv5wR82HvYAM_7WJsu4_'), label: 'CCI v2' }]
+    }
   },
   {
     id: 'd2-intro-radu',
@@ -166,7 +174,11 @@ export const EVENT_SCHEDULE: Session[] = [
     endTime: '09:10',
     title: 'Introduction to Radu keynote',
     location: 'Ground Floor - Gallery',
-    led: { center: [], left: [], right: [] }
+    led: { 
+      center: [{ type: 'image', url: getDriveUrl('1To98Q9iaR2kw8_2cAaM6RysR5fpDJqb4'), label: 'Intro Radu' }],
+      left: [{ type: 'image', url: getDriveUrl('1aPBcDm1Y5fyym7kh5PBg6gCd6KPrI4Pt'), label: "Radu Profile" }],
+      right: [{ type: 'image', url: getDriveUrl('1To98Q9iaR2kw8_2cAaM6RysR5fpDJqb4'), label: 'CCI v2' }]
+    }
   },
   {
     id: 'd2-2-speaker',
@@ -177,7 +189,11 @@ export const EVENT_SCHEDULE: Session[] = [
     title: 'KEYNOTE: Why Technology Is Ready, BUT Leadership Is Not!',
     speaker: 'Radu Palamariu',
     location: 'Ground Floor - Gallery',
-    led: { center: [], left: [], right: [] }
+    led: { 
+      center: [{ type: 'image', url: getDriveUrl('1g5bi6TllBS4yzO1BKADeJYjJtzGq3sVk'), label: "Radu's Slides" }],
+      left: [{ type: 'image', url: getDriveUrl('1aPBcDm1Y5fyym7kh5PBg6gCd6KPrI4Pt'), label: "Radu Keynote" }],
+      right: [{ type: 'image', url: getDriveUrl('12_rG5M2QLsv_lv5wR82HvYAM_7WJsu4_'), label: 'CCI v1' }]
+    }
   },
   {
     id: 'd2-intro-cliff',
@@ -187,7 +203,14 @@ export const EVENT_SCHEDULE: Session[] = [
     endTime: '09:35',
     title: 'Thank you Radu / introduce Cliff',
     location: 'Ground Floor - Gallery',
-    led: { center: [], left: [], right: [] }
+    led: { 
+      center: [{ type: 'image', url: getDriveUrl('1To98Q9iaR2kw8_2cAaM6RysR5fpDJqb4'), label: 'Transition' }],
+      left: [{ type: 'image', url: getDriveUrl('1oRM30HwPbxHJKqXLr4_NyLTnfZEKAYE1'), label: "Cliff Profile" }],
+      right: [
+        { type: 'image', url: getDriveUrl('1To98Q9iaR2kw8_2cAaM6RysR5fpDJqb4'), label: 'CCI v2' },
+        { type: 'image', url: 'https://picsum.photos/seed/qr1/1000/1500', label: 'Q&A QR' }
+      ]
+    }
   },
   {
     id: 'd2-cliff',
@@ -198,7 +221,14 @@ export const EVENT_SCHEDULE: Session[] = [
     title: 'KEYNOTE: Accelerating Agents at Scale',
     speaker: 'Cliff Henson',
     location: 'Ground Floor - Gallery',
-    led: { center: [], left: [], right: [] }
+    led: { 
+      center: [{ type: 'image', url: getDriveUrl('1dhAqlTJir5f87jdJtKEIFcylBTZuxZqa'), label: "Cliff's Slides" }],
+      left: [{ type: 'image', url: getDriveUrl('1oRM30HwPbxHJKqXLr4_NyLTnfZEKAYE1'), label: 'Cliff Keynote' }],
+      right: [
+        { type: 'image', url: getDriveUrl('1To98Q9iaR2kw8_2cAaM6RysR5fpDJqb4'), label: 'CCI v1' },
+        { type: 'image', url: 'https://picsum.photos/seed/qr2/1000/1500', label: 'Q&A QR' }
+      ]
+    }
   },
   {
     id: 'd2-intro-panel-1',
@@ -208,7 +238,11 @@ export const EVENT_SCHEDULE: Session[] = [
     endTime: '10:05',
     title: 'Panel introduction',
     location: 'Ground Floor - Gallery',
-    led: { center: [], left: [], right: [] }
+    led: { 
+      center: [{ type: 'image', url: 'https://picsum.photos/seed/panel-i/1900/1000', label: 'Panel Discussion I' }],
+      left: [{ type: 'image', url: getDriveUrl('1BGpW6C7ddIT-hsqbYPGSf-MZO9Lbwcbu'), label: 'Speakers' }],
+      right: [{ type: 'image', url: getDriveUrl('1hFVLRlae4GKE87CWPOt7Uf132i_kaZpm'), label: 'Moderator' }]
+    }
   },
   {
     id: 'd2-panel-1',
@@ -220,7 +254,11 @@ export const EVENT_SCHEDULE: Session[] = [
     speaker: 'Massimo Andolina, Marc Engel, Pier Luigi Sigismondi',
     location: 'Ground Floor - Gallery',
     details: 'Panelists: Massimo Andolina, Marc Engel, Pier Luigi Sigismondi. Moderator: Radu Palamariu.',
-    led: { center: [], left: [], right: [] }
+    led: { 
+      center: [{ type: 'image', url: 'https://picsum.photos/seed/panel-l/1900/1000', label: 'PANEL: Live' }],
+      left: [{ type: 'image', url: getDriveUrl('1BGpW6C7ddIT-hsqbYPGSf-MZO9Lbwcbu'), label: 'Speakers' }],
+      right: [{ type: 'image', url: getDriveUrl('1hFVLRlae4GKE87CWPOt7Uf132i_kaZpm'), label: 'Moderator' }]
+    }
   },
   {
     id: 'd2-thanks-panel-1',
@@ -230,7 +268,11 @@ export const EVENT_SCHEDULE: Session[] = [
     endTime: '10:47',
     title: 'Thank you to panelists / coffee break announcement',
     location: 'Ground Floor - Gallery',
-    led: { center: [], left: [], right: [] }
+    led: { 
+      center: [{ type: 'image', url: getDriveUrl('1To98Q9iaR2kw8_2cAaM6RysR5fpDJqb4'), label: 'Coffee Banner' }],
+      left: [{ type: 'image', url: getDriveUrl('1LOmJ50px3kB969ff2NNh3in4KFh_XAv0'), label: 'Innovators' }],
+      right: [{ type: 'image', url: getDriveUrl('1To98Q9iaR2kw8_2cAaM6RysR5fpDJqb4'), label: 'App Demo' }]
+    }
   },
   {
     id: 'd2-coffee',
@@ -240,7 +282,11 @@ export const EVENT_SCHEDULE: Session[] = [
     endTime: '11:00',
     title: 'Coffee Break',
     location: 'Ground Floor - Gallery Foyer',
-    led: { center: [], left: [], right: [] }
+    led: { 
+      center: [{ type: 'image', url: getDriveUrl('1i963SifsU1DgHUziMGDK9fa_NO4fIgp3'), label: 'Coffee Banner' }],
+      left: [{ type: 'video', url: 'https://drive.google.com/file/d/1LOmJ50px3kB969ff2NNh3in4KFh_XAv0/preview', label: 'Innovators' }],
+      right: [{ type: 'video', url: 'https://drive.google.com/file/d/1ZxAwjpDv_pVwimnXJHwYoS3KXyHvPpcT/preview', label: 'App Demo' }]
+    }
   },
   {
     id: 'd2-intro-max',
@@ -250,7 +296,11 @@ export const EVENT_SCHEDULE: Session[] = [
     endTime: '11:05',
     title: 'Welcome back / introduce Max remote keynote',
     location: 'Ground Floor - Gallery',
-    led: { center: [], left: [], right: [] }
+    led: { 
+      center: [{ type: 'image', url: getDriveUrl('1To98Q9iaR2kw8_2cAaM6RysR5fpDJqb4'), label: 'Max Chu Intro' }],
+      left: [{ type: 'image', url: getDriveUrl('1-Qptz_qQJbDlW88Ae9lZY7cdorE_d0Ws'), label: 'Max Profile' }],
+      right: [{ type: 'image', url: getDriveUrl('1To98Q9iaR2kw8_2cAaM6RysR5fpDJqb4'), label: 'CCI v2' }]
+    }
   },
   {
     id: 'd2-max-chu',
@@ -262,7 +312,11 @@ export const EVENT_SCHEDULE: Session[] = [
     speaker: 'Max Chu',
     location: 'Ground Floor - Gallery',
     details: "Excellence in Digital Transformation: Foxconn's Three Core Systems for Supply Chain Agility and ESG.",
-    led: { center: [], left: [], right: [] }
+    led: { 
+      center: [{ type: 'image', url: getDriveUrl('1To98Q9iaR2kw8_2cAaM6RysR5fpDJqb4'), label: 'Remote Feed' }],
+      left: [{ type: 'image', url: getDriveUrl('1-Qptz_qQJbDlW88Ae9lZY7cdorE_d0Ws'), label: 'Foxconn Keynote' }],
+      right: [{ type: 'image', url: getDriveUrl('1To98Q9iaR2kw8_2cAaM6RysR5fpDJqb4'), label: 'CCI v1' }]
+    }
   },
   {
     id: 'd2-intro-vikram',
@@ -272,7 +326,11 @@ export const EVENT_SCHEDULE: Session[] = [
     endTime: '11:35',
     title: 'Thank you Max / introduce Vikram',
     location: 'Ground Floor - Gallery',
-    led: { center: [], left: [], right: [] }
+    led: { 
+      center: [{ type: 'image', url: getDriveUrl('1To98Q9iaR2kw8_2cAaM6RysR5fpDJqb4'), label: 'Vikram Intro' }],
+      left: [{ type: 'image', url: getDriveUrl('1qXJvifwEmZmBHXSKNLfmbZbr3DrxEaX1'), label: 'Vikram Profile' }],
+      right: [{ type: 'image', url: getDriveUrl('1To98Q9iaR2kw8_2cAaM6RysR5fpDJqb4'), label: 'CCI v2' }]
+    }
   },
   {
     id: 'd2-vikram',
@@ -283,7 +341,11 @@ export const EVENT_SCHEDULE: Session[] = [
     title: 'KEYNOTE: Danone’s Supply Chain as a Growth Accelerator',
     speaker: 'Vikram Agarwal',
     location: 'Ground Floor - Gallery',
-    led: { center: [], left: [], right: [] }
+    led: { 
+      center: [{ type: 'image', url: getDriveUrl('1jar3DX83ZwmWyWvbN6wFg-LDGHw-G6cB'), label: "Vikram's Slides" }],
+      left: [{ type: 'image', url: getDriveUrl('1qXJvifwEmZmBHXSKNLfmbZbr3DrxEaX1'), label: 'Danone Ops' }],
+      right: [{ type: 'image', url: getDriveUrl('1To98Q9iaR2kw8_2cAaM6RysR5fpDJqb4'), label: 'CCI v1' }]
+    }
   },
   {
     id: 'd2-intro-panel-2',
@@ -293,7 +355,11 @@ export const EVENT_SCHEDULE: Session[] = [
     endTime: '12:05',
     title: 'Panel introduction',
     location: 'Ground Floor - Gallery',
-    led: { center: [], left: [], right: [] }
+    led: { 
+      center: [{ type: 'image', url: 'https://picsum.photos/seed/panel2-i/1900/1000', label: 'Panel Discussion II' }],
+      left: [{ type: 'image', url: getDriveUrl('19SpZZnRTf55yHFk0BP3atLaKwCfJk4dw'), label: 'Panelists' }],
+      right: [{ type: 'image', url: getDriveUrl('1vJcZuNH_WrZVYGanRlgTf7QSQiwGdx10'), label: 'Moderator' }]
+    }
   },
   {
     id: 'd2-panel-2',
@@ -305,7 +371,11 @@ export const EVENT_SCHEDULE: Session[] = [
     speaker: 'Mourad Tamoud, Feiyu Xu, Luciano Sieber',
     location: 'Ground Floor - Gallery',
     details: 'Panelists: Mourad Tamoud, Feiyu Xu, Luciano Sieber. Moderator: Radu Palamariu.',
-    led: { center: [], left: [], right: [] }
+    led: { 
+      center: [{ type: 'image', url: 'https://picsum.photos/seed/panel2-l/1900/1000', label: 'PANEL: Resilience' }],
+      left: [{ type: 'image', url: getDriveUrl('19SpZZnRTf55yHFk0BP3atLaKwCfJk4dw'), label: 'Panelists' }],
+      right: [{ type: 'image', url: getDriveUrl('1vJcZuNH_WrZVYGanRlgTf7QSQiwGdx10'), label: 'Moderator' }]
+    }
   },
   {
     id: 'd2-thanks-panel-2',
@@ -315,7 +385,11 @@ export const EVENT_SCHEDULE: Session[] = [
     endTime: '12:47',
     title: 'Thank you to panelists / lunch logistics',
     location: 'Ground Floor - Gallery',
-    led: { center: [], left: [], right: [] }
+    led: { 
+      center: [{ type: 'image', url: getDriveUrl('1To98Q9iaR2kw8_2cAaM6RysR5fpDJqb4'), label: 'Lunch Logistics' }],
+      left: [{ type: 'image', url: getDriveUrl('1To98Q9iaR2kw8_2cAaM6RysR5fpDJqb4'), label: 'CCI' }],
+      right: [{ type: 'image', url: getDriveUrl('1To98Q9iaR2kw8_2cAaM6RysR5fpDJqb4'), label: 'CCI' }]
+    }
   },
   {
     id: 'd2-lunch',
@@ -325,7 +399,11 @@ export const EVENT_SCHEDULE: Session[] = [
     endTime: '13:30',
     title: 'Lunch Break with Networking',
     location: 'Level 1 - Gallery Lounges 1, 2, 3',
-    led: { center: [], left: [], right: [] }
+    led: { 
+      center: [{ type: 'image', url: 'https://picsum.photos/seed/lunch/1920/1080', label: 'Lunch Floor Layout' }],
+      left: [{ type: 'video', url: 'https://drive.google.com/file/d/1LA8hEj9lI9Exg66SzsvogU59AahHFZMI/preview', label: 'Event Teaser' }],
+      right: [{ type: 'video', url: 'https://drive.google.com/file/d/1LA8hEj9lI9Exg66SzsvogU59AahHFZMI/preview', label: 'Networking App Demo' }]
+    }
   },
   {
     id: 'd2-jim',
@@ -337,7 +415,11 @@ export const EVENT_SCHEDULE: Session[] = [
     speaker: 'Jim Hagemann Snabe',
     location: 'Ground Floor - Gallery',
     details: 'Leading Through AI, Geopolitics, and Global Transformation. Moderator: Radu Palamariu.',
-    led: { center: [], left: [], right: [] }
+    led: { 
+      center: [{ type: 'image', url: getDriveUrl('1JXELXqeh_qb5ACYAJ6nb3iLD9Xv1M-Lt'), label: 'Fireside Chat 1' }],
+      left: [{ type: 'image', url: getDriveUrl('1H31MNsWWENuZ8iCWc9990XK7uoBZ17K3'), label: 'Jim Snabe Profile' }],
+      right: [{ type: 'image', url: getDriveUrl('1To98Q9iaR2kw8_2cAaM6RysR5fpDJqb4'), label: 'CCI v1' }]
+    }
   },
   {
     id: 'd2-thanks-jim',
@@ -347,7 +429,11 @@ export const EVENT_SCHEDULE: Session[] = [
     endTime: '14:15',
     title: 'Thank you Jim / introduce Damien',
     location: 'Ground Floor - Gallery',
-    led: { center: [], left: [], right: [] }
+    led: { 
+      center: [{ type: 'image', url: getDriveUrl('1To98Q9iaR2kw8_2cAaM6RysR5fpDJqb4'), label: 'Transition' }],
+      left: [{ type: 'image', url: getDriveUrl('1LEKPiPNWnB2pS9ga7WEM-Wg-mab-ThDT'), label: 'Damien Profile' }],
+      right: [{ type: 'image', url: getDriveUrl('1To98Q9iaR2kw8_2cAaM6RysR5fpDJqb4'), label: 'CCI v2' }]
+    }
   },
   {
     id: 'd2-damien',
@@ -358,7 +444,11 @@ export const EVENT_SCHEDULE: Session[] = [
     title: 'KEYNOTE: How Customer Centricity Powers Booming Fragrances',
     speaker: 'Damien Decouvelaere',
     location: 'Ground Floor - Gallery',
-    led: { center: [], left: [], right: [] }
+    led: { 
+      center: [{ type: 'image', url: getDriveUrl('12qXAgqvdIFPnf-sHz1Uqj38Q90K5SMKQ'), label: 'L\'Oreal Keynote' }],
+      left: [{ type: 'image', url: getDriveUrl('1LEKPiPNWnB2pS9ga7WEM-Wg-mab-ThDT'), label: 'Damien Keynote' }],
+      right: [{ type: 'image', url: getDriveUrl('1To98Q9iaR2kw8_2cAaM6RysR5fpDJqb4'), label: 'CCI v1' }]
+    }
   },
   {
     id: 'd2-net-logistics',
@@ -368,7 +458,11 @@ export const EVENT_SCHEDULE: Session[] = [
     endTime: '14:45',
     title: 'Networking logistics / room-change instructions',
     location: 'Ground Floor - Gallery',
-    led: { center: [], left: [], right: [] }
+    led: { 
+      center: [{ type: 'image', url: getDriveUrl('1To98Q9iaR2kw8_2cAaM6RysR5fpDJqb4'), label: 'Room Setup Change' }],
+      left: [{ type: 'image', url: getDriveUrl('1To98Q9iaR2kw8_2cAaM6RysR5fpDJqb4'), label: 'CCI' }],
+      right: [{ type: 'image', url: getDriveUrl('1To98Q9iaR2kw8_2cAaM6RysR5fpDJqb4'), label: 'CCI' }]
+    }
   },
   {
     id: 'd2-net-1-on-1',
@@ -378,7 +472,11 @@ export const EVENT_SCHEDULE: Session[] = [
     endTime: '16:15',
     title: '1-on-1 Networking (1.5h)',
     location: 'Level 1 - Gallery Lounges 1, 2, 3',
-    led: { center: [], left: [], right: [] }
+    led: { 
+      center: [{ type: 'image', url: 'https://picsum.photos/seed/net-floor/1900/1000', label: 'Networking Floor Layout' }],
+      left: [{ type: 'video', url: 'https://drive.google.com/file/d/1LA8hEj9lI9Exg66SzsvogU59AahHFZMI/preview', label: 'Event Teaser' }],
+      right: [{ type: 'image', url: getDriveUrl('1To98Q9iaR2kw8_2cAaM6RysR5fpDJqb4'), label: 'CCI' }]
+    }
   },
   {
     id: 'd2-coffee-2',
@@ -388,7 +486,11 @@ export const EVENT_SCHEDULE: Session[] = [
     endTime: '16:45',
     title: 'Coffee Break',
     location: 'Level 1 - Gallery Lounges 1, 2, 3',
-    led: { center: [], left: [], right: [] }
+    led: { 
+      center: [{ type: 'image', url: getDriveUrl('1To98Q9iaR2kw8_2cAaM6RysR5fpDJqb4'), label: 'Coffee Break' }],
+      left: [{ type: 'video', url: 'https://drive.google.com/file/d/1LA8hEj9lI9Exg66SzsvogU59AahHFZMI/preview', label: 'Event Teaser' }],
+      right: [{ type: 'image', url: getDriveUrl('1To98Q9iaR2kw8_2cAaM6RysR5fpDJqb4'), label: 'CCI' }]
+    }
   },
   {
     id: 'd2-intro-harald',
@@ -398,7 +500,11 @@ export const EVENT_SCHEDULE: Session[] = [
     endTime: '16:50',
     title: 'Welcome back / introduce Harald Kujat',
     location: 'Ground Floor - Gallery',
-    led: { center: [], left: [], right: [] }
+    led: { 
+      center: [{ type: 'image', url: getDriveUrl('1To98Q9iaR2kw8_2cAaM6RysR5fpDJqb4'), label: 'Harald Intro' }],
+      left: [{ type: 'image', url: getDriveUrl('1_ejmwz8ZrKFJrZWYrlOhqxPLxuSXG2kD'), label: 'Harald Profile' }],
+      right: [{ type: 'image', url: getDriveUrl('1To98Q9iaR2kw8_2cAaM6RysR5fpDJqb4'), label: 'CCI v2' }]
+    }
   },
   {
     id: 'd2-harald',
@@ -410,7 +516,11 @@ export const EVENT_SCHEDULE: Session[] = [
     speaker: 'Harald Kujat',
     location: 'Ground Floor - Gallery',
     details: 'The New Global Order: Geopolitics, Security, and the Future of Global Trade. Moderator: Radu Palamariu.',
-    led: { center: [], left: [], right: [] }
+    led: { 
+      center: [{ type: 'image', url: getDriveUrl('1ijjDndk_hr_tGYhqdWMbMHRAjamANtc9'), label: 'Fireside Chat 2' }],
+      left: [{ type: 'image', url: getDriveUrl('1_ejmwz8ZrKFJrZWYrlOhqxPLxuSXG2kD'), label: 'Harald Kujat' }],
+      right: [{ type: 'image', url: getDriveUrl('1To98Q9iaR2kw8_2cAaM6RysR5fpDJqb4'), label: 'CCI v1' }]
+    }
   },
   {
     id: 'd2-rt-logistics',
@@ -420,7 +530,11 @@ export const EVENT_SCHEDULE: Session[] = [
     endTime: '17:30',
     title: 'Roundtable logistics / upcoming dinner networking',
     location: 'Ground Floor - Gallery',
-    led: { center: [], left: [], right: [] }
+    led: { 
+      center: [{ type: 'image', url: getDriveUrl('1To98Q9iaR2kw8_2cAaM6RysR5fpDJqb4'), label: 'Roundtables' }],
+      left: [{ type: 'image', url: getDriveUrl('1D-4q7Fe_tUwDUsji1k-KBHOFq34_m_WB'), label: 'Moderators' }],
+      right: [{ type: 'image', url: 'https://picsum.photos/seed/feedback/1000/1500', label: 'Feedback QR' }]
+    }
   },
   {
     id: 'd2-roundtables',
@@ -430,7 +544,11 @@ export const EVENT_SCHEDULE: Session[] = [
     endTime: '18:10',
     title: 'Roundtable Discussions',
     location: 'Ground Floor - Gallery',
-    led: { center: [], left: [], right: [] }
+    led: { 
+      center: [{ type: 'image', url: 'https://picsum.photos/seed/rt-live/1900/1000', label: 'Roundtable Discussions' }],
+      left: [{ type: 'image', url: getDriveUrl('1D-4q7Fe_tUwDUsji1k-KBHOFq34_m_WB'), label: 'Moderators' }],
+      right: [{ type: 'image', url: 'https://picsum.photos/seed/feedback/1000/1500', label: 'Feedback QR' }]
+    }
   },
   {
     id: 'd2-closing',
@@ -440,7 +558,11 @@ export const EVENT_SCHEDULE: Session[] = [
     endTime: '18:18',
     title: 'Closing Remarks with Slides – The Next Industrial Era',
     location: 'Ground Floor - Gallery',
-    led: { center: [], left: [], right: [] }
+    led: { 
+      center: [{ type: 'image', url: getDriveUrl('1tnnOUQxsTi_pqKcQHO1f5hcQV-4Rbx3Q'), label: 'Closing Slides' }],
+      left: [{ type: 'image', url: getDriveUrl('1To98Q9iaR2kw8_2cAaM6RysR5fpDJqb4'), label: 'CCI' }],
+      right: [{ type: 'image', url: getDriveUrl('1To98Q9iaR2kw8_2cAaM6RysR5fpDJqb4'), label: 'CCI' }]
+    }
   },
   {
     id: 'd2-wrapup',
@@ -450,7 +572,11 @@ export const EVENT_SCHEDULE: Session[] = [
     endTime: '18:20',
     title: 'Wrap Up',
     location: 'Ground Floor - Gallery',
-    led: { center: [], left: [], right: [] }
+    led: { 
+      center: [{ type: 'image', url: getDriveUrl('1bGgFDhWeCDhNzdZva-UwvQHo7gADETBg'), label: 'Wrap Up' }],
+      left: [{ type: 'image', url: getDriveUrl('1To98Q9iaR2kw8_2cAaM6RysR5fpDJqb4'), label: 'CCI' }],
+      right: [{ type: 'image', url: getDriveUrl('1To98Q9iaR2kw8_2cAaM6RysR5fpDJqb4'), label: 'CCI' }]
+    }
   },
   {
     id: 'd2-group-photo',
@@ -460,7 +586,11 @@ export const EVENT_SCHEDULE: Session[] = [
     endTime: '18:30',
     title: 'Group Photo',
     location: 'Ground Floor - Gallery',
-    led: { center: [], left: [], right: [] }
+    led: { 
+      center: [{ type: 'image', url: getDriveUrl('1To98Q9iaR2kw8_2cAaM6RysR5fpDJqb4'), label: 'Group Photo' }],
+      left: [{ type: 'image', url: getDriveUrl('1To98Q9iaR2kw8_2cAaM6RysR5fpDJqb4'), label: 'CCI' }],
+      right: [{ type: 'image', url: getDriveUrl('1To98Q9iaR2kw8_2cAaM6RysR5fpDJqb4'), label: 'CCI' }]
+    }
   },
   {
     id: 'd2-final-dinner',
