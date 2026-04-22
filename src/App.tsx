@@ -7,7 +7,6 @@ import {
   User, 
   ExternalLink, 
   AlertCircle,
-  Monitor,
   Layout as LayoutIcon,
   Navigation,
   Activity,
@@ -16,7 +15,7 @@ import {
   Info,
   Phone
 } from 'lucide-react';
-import { EVENT_SCHEDULE, type Session, type LEDMedia } from './constants';
+import { EVENT_SCHEDULE, type Session } from './constants';
 
 // --- Components ---
 
@@ -108,59 +107,6 @@ function SessionDetailModal({ session, onClose }: { session: Session, onClose: (
   );
 }
 
-function LEDDetailModal({ media, onClose }: { media: LEDMedia, onClose: () => void }) {
-  return (
-    <div className="fixed inset-0 z-[110] flex items-center justify-center p-4">
-      <motion.div 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        onClick={onClose}
-        className="absolute inset-0 bg-black/90 backdrop-blur-md"
-      />
-      <motion.div 
-        initial={{ scale: 0.9, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.9, opacity: 0 }}
-        className="relative w-full max-w-lg bg-zinc-900 border border-white/10 rounded-2xl overflow-hidden shadow-2xl flex flex-col font-mono"
-      >
-        <div className="bg-white/[0.03] p-4 flex justify-between items-center border-b border-white/5">
-          <div className="flex items-center gap-2">
-            <Monitor className="w-4 h-4 text-purple-400" />
-            <span className="text-[10px] text-white uppercase font-bold tracking-widest">Signal Source Details</span>
-          </div>
-          <button onClick={onClose} className="text-white/40 hover:text-white transition-colors">
-            <X className="w-4 h-4" />
-          </button>
-        </div>
-        <div className="p-6 space-y-4">
-          <div className="space-y-1">
-            <span className="text-[9px] text-zinc-500 uppercase font-bold">Asset Label</span>
-            <div className="text-sm text-white bg-black/40 p-3 rounded-lg border border-white/5">{media.label}</div>
-          </div>
-          <div className="space-y-1">
-            <span className="text-[9px] text-zinc-500 uppercase font-bold">Content Type</span>
-            <div className="text-sm text-purple-400 bg-black/40 p-3 rounded-lg border border-white/5">{media.type.toUpperCase()}</div>
-          </div>
-          <div className="space-y-1">
-            <span className="text-[9px] text-zinc-500 uppercase font-bold">Primary Endpoint</span>
-            <div className="text-[10px] text-blue-400 bg-black/40 p-3 rounded-lg border border-white/5 break-all leading-relaxed uppercase">
-              {media.url}
-            </div>
-          </div>
-        </div>
-        <div className="p-4 bg-white/[0.02] flex justify-end gap-2 border-t border-white/5">
-          <button 
-            onClick={onClose}
-            className="px-4 py-2 border border-white/10 rounded font-bold text-[10px] text-white hover:bg-white/5 transition-colors uppercase"
-          >
-            Close Signal Trace
-          </button>
-        </div>
-      </motion.div>
-    </div>
-  );
-}
 
 function TimeDisplay({ label, timezone }: { label: string, timezone: string }) {
   const [time, setTime] = useState(new Date());
@@ -188,11 +134,11 @@ function TimeDisplay({ label, timezone }: { label: string, timezone: string }) {
   });
 
   return (
-    <div className="modern-card p-3 flex flex-col items-center justify-center min-w-[160px] relative overflow-hidden group">
+    <div className="modern-card p-6 flex flex-col items-center justify-center min-w-[240px] relative overflow-hidden group">
       <div className="accent-glow group-hover:opacity-30 transition-opacity"></div>
-      <span className="label-mono mb-1 text-[8px]">{label}</span>
-      <span className="text-2xl font-bold font-heading tracking-tighter tabular-nums text-white leading-none">{timeStr}</span>
-      <span className="text-[9px] text-purple-400 font-mono mt-1 uppercase tracking-widest">{dateStr}</span>
+      <span className="label-mono mb-3 text-[12px] tracking-[0.3em] font-black">{label}</span>
+      <span className="text-5xl font-bold font-heading tracking-widest tabular-nums text-white leading-none">{timeStr}</span>
+      <span className="text-[12px] text-purple-400 font-mono mt-3 uppercase tracking-[0.4em] font-bold">{dateStr}</span>
     </div>
   );
 }
@@ -209,9 +155,9 @@ function GlobalCountdown({ targetDate }: { targetDate: Date }) {
   
   if (diff <= 0) {
     return (
-      <div className="modern-card p-3 flex flex-col items-center justify-center min-w-[200px] border-purple-500/30">
-        <span className="label-mono mb-1 text-[8px] text-purple-300">Mission Status</span>
-        <span className="text-xl font-heading font-black text-white glow-text-purple">COMMENCED</span>
+      <div className="modern-card p-6 flex flex-col items-center justify-center min-w-[320px] border-purple-500/30">
+        <span className="label-mono mb-3 text-[12px] text-purple-300 tracking-[0.3em] font-black uppercase">Mission Status</span>
+        <span className="text-4xl font-heading font-black text-white glow-text-purple tracking-[0.2em]">COMMENCED</span>
       </div>
     );
   }
@@ -222,8 +168,8 @@ function GlobalCountdown({ targetDate }: { targetDate: Date }) {
   const secs = Math.floor((diff % (1000 * 60)) / 1000);
 
   return (
-    <div className="modern-card p-3 flex flex-col items-center justify-center min-w-[200px] relative group border-purple-400/20">
-      <div className="absolute inset-x-0 bottom-0 h-0.5 bg-purple-500/20">
+    <div className="modern-card p-6 flex flex-col items-center justify-center min-w-[320px] relative group border-purple-400/20">
+      <div className="absolute inset-x-0 bottom-0 h-1.5 bg-purple-500/20">
         <motion.div 
           className="h-full bg-purple-400"
           initial={{ width: 0 }}
@@ -231,290 +177,209 @@ function GlobalCountdown({ targetDate }: { targetDate: Date }) {
           transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
         />
       </div>
-      <span className="label-mono mb-1 text-[8px] text-purple-300">T-MINUS DAY 1 START</span>
-      <div className="flex gap-1.5 items-baseline">
-        <span className="text-2xl font-bold font-heading tabular-nums text-white">{days}d {hours}h {mins}m</span>
-        <span className="text-sm font-mono text-purple-400 tabular-nums w-6">{secs}s</span>
-      </div>
-    </div>
-  );
-}
-
-function LEDDisplay({ media, label, sharedTick, onClick }: { media: LEDMedia[], label: string, sharedTick: number, onClick?: (item: LEDMedia) => void }) {
-  const [isLoaded, setIsLoaded] = useState(false);
-  const index = media.length > 0 ? sharedTick % media.length : 0;
-  const current = media[index];
-
-  useEffect(() => {
-    setIsLoaded(false);
-  }, [current?.url]);
-
-  return (
-    <div 
-      onClick={() => current && onClick?.(current)}
-      className={`relative w-full h-full flex flex-col items-center justify-center overflow-hidden bg-purple-950/50 ${onClick ? 'cursor-pointer hover:ring-2 hover:ring-purple-400/50 transition-all' : ''}`}
-    >
-      <div className="absolute top-1 left-2 text-[8px] text-purple-500 font-mono z-20 font-bold opacity-60">
-        {label} {media.length > 1 && `(${index + 1}/${media.length})`}
-      </div>
-      
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={current?.url || 'empty'}
-          initial={{ opacity: 0, scale: 1.05, filter: 'brightness(1.5) blur(4px)' }}
-          animate={{ opacity: isLoaded ? 1 : 0, scale: 1, filter: 'brightness(1) blur(0px)' }}
-          exit={{ opacity: 0, scale: 0.95, filter: 'brightness(0.5) blur(2px)' }}
-          transition={{ duration: 1.2, ease: [0.4, 0, 0.2, 1] }}
-          className="absolute inset-0 w-full h-full"
-        >
-          {current ? (
-            current.type === 'video' ? (
-              <div className="w-full h-full bg-black relative">
-                <iframe 
-                  src={current.url} 
-                  className="w-full h-full border-0 pointer-events-none scale-[1.3] relative z-0"
-                  allow="autoplay"
-                  onLoad={() => setIsLoaded(true)}
-                />
-              </div>
-            ) : (
-              <img 
-                src={current.url} 
-                alt={current.label} 
-                className="w-full h-full object-cover"
-                referrerPolicy="no-referrer"
-                onLoad={() => setIsLoaded(true)}
-              />
-            )
-          ) : (
-            <div className="w-full h-full flex flex-col items-center justify-center border-2 border-dashed border-purple-800/30 gap-1 bg-black/80">
-              <Zap className="w-4 h-4 text-purple-900 animate-pulse" />
-              <span className="text-[7px] text-purple-800 font-black uppercase tracking-widest">No Content</span>
-            </div>
-          )}
-        </motion.div>
-      </AnimatePresence>
-
-      {!isLoaded && current && (
-        <div className="absolute inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm z-20">
-          <div className="flex flex-col items-center gap-2">
-            <div className="w-6 h-6 border-2 border-purple-500/30 border-t-purple-400 rounded-full animate-spin" />
-            <span className="text-[7px] text-purple-400 font-mono tracking-widest uppercase">Buffering Source...</span>
-          </div>
-        </div>
-      )}
-      
-      {/* Scanline / Texture Overlay for consistent look */}
-      <div className="absolute inset-0 pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10 mix-blend-overlay z-10"></div>
-      
-      <div className="absolute bottom-0 inset-x-0 bg-purple-950/80 backdrop-blur-md p-1.5 z-30 border-t border-purple-500/20">
-        <div className="text-[8px] text-purple-400 font-mono uppercase tracking-widest text-center truncate font-bold">
-          {current ? `SOURCE: ${current.label}` : 'STANDBY MODE'}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function LEDPreview({ session, onMediaClick }: { session: Session | null, onMediaClick?: (item: LEDMedia) => void }) {
-  const [tick, setTick] = useState(0);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTick(prev => prev + 1);
-    }, 5000);
-    return () => clearInterval(timer);
-  }, [session?.id]); // Reset sync on session change
-
-  return (
-    <div className="modern-card p-4 h-full flex flex-col gap-3">
-      <div className="flex items-center justify-between">
-        <div className="flex gap-2 items-center">
-          <Monitor className="w-3 h-3 text-purple-400" />
-          <h2 className="text-[9px] font-bold uppercase tracking-widest text-white/70">Stage LED Simulation</h2>
-        </div>
-        <div className="flex items-center gap-2">
-          <span className="text-[8px] font-mono text-purple-500">SYNC_LOCK</span>
-          <div className="w-1 h-1 rounded-full bg-purple-400"></div>
-        </div>
-      </div>
-      
-      <div className="flex-1 flex justify-center items-end gap-2 w-full bg-black/40 rounded-xl p-4 border border-white/5 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-purple-400/5 via-transparent to-transparent pointer-events-none"></div>
-        
-        {/* Left Wing */}
-        <div className="relative h-[80%] aspect-[2/3] ring-1 ring-white/10 rounded-md overflow-hidden bg-black">
-          <LEDDisplay media={session?.led.left || []} label="LW" sharedTick={tick} onClick={onMediaClick} />
-        </div>
-        
-        {/* Center */}
-        <div className="relative h-[70%] aspect-[5.76/2.34] ring-1 ring-white/10 rounded-md overflow-hidden bg-black">
-          <LEDDisplay media={session?.led.center || []} label="CENTER" sharedTick={tick} onClick={onMediaClick} />
-        </div>
-        
-        {/* Right Wing */}
-        <div className="relative h-[80%] aspect-[2/3] ring-1 ring-white/10 rounded-md overflow-hidden bg-black">
-          <LEDDisplay media={session?.led.right || []} label="RW" sharedTick={tick} onClick={onMediaClick} />
-        </div>
+      <span className="label-mono mb-3 text-[12px] text-purple-300 tracking-[0.3em] font-black">T-MINUS DAY 1 START</span>
+      <div className="flex gap-4 items-baseline">
+        <span className="text-5xl font-bold font-heading tabular-nums text-white tracking-widest">{days}d {hours}h {mins}m</span>
+        <span className="text-2xl font-mono text-purple-400 tabular-nums w-12">{secs}s</span>
       </div>
     </div>
   );
 }
 
 
-function SessionProgress({ current, next }: { current: Session | null, next: Session | null }) {
-  const [now, setNow] = useState(new Date());
 
-  useEffect(() => {
-    const timer = setInterval(() => setNow(new Date()), 1000);
-    return () => clearInterval(timer);
-  }, []);
-
+function SessionProgress({ current, next, now }: { current: Session | null, next: Session | null, now: Date }) {
   const progress = useMemo(() => {
     if (!current) return 0;
-    const [startH, startM] = current.startTime.split(':').map(Number);
-    const [endH, endM] = current.endTime.split(':').map(Number);
     
-    const startDate = new Date(now);
-    startDate.setHours(startH, startM, 0);
-    const endDate = new Date(now);
-    endDate.setHours(endH, endM, 0);
+    const getZhSeconds = (timeStr: string) => {
+      const [h, m] = timeStr.split(':').map(Number);
+      return h * 3600 + m * 60;
+    };
+
+    const fmt = new Intl.DateTimeFormat('en-GB', {
+      timeZone: 'Europe/Zurich',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+      hour12: false
+    });
+    const parts = fmt.formatToParts(now);
+    const zhH = parseInt(parts.find(p => p.type === 'hour')!.value);
+    const zhM = parseInt(parts.find(p => p.type === 'minute')!.value);
+    const zhS = parseInt(parts.find(p => p.type === 'second')!.value);
+    const currentZhSeconds = zhH * 3600 + zhM * 60 + zhS;
+
+    const startSeconds = getZhSeconds(current.startTime);
+    const endSeconds = getZhSeconds(current.endTime);
     
-    const total = endDate.getTime() - startDate.getTime();
-    const elapsed = now.getTime() - startDate.getTime();
+    const total = endSeconds - startSeconds;
+    const elapsed = currentZhSeconds - startSeconds;
     
     return Math.min(100, Math.max(0, (elapsed / total) * 100));
   }, [current, now]);
 
   const timeToNext = useMemo(() => {
-    if (!next) return '--:--';
+    if (!next) return '--:--:--';
+    
     const [h, m] = next.startTime.split(':').map(Number);
-    const target = new Date(now);
-    target.setHours(h, m, 0);
+    const targetTotalSeconds = h * 3600 + m * 60;
+
+    const fmt = new Intl.DateTimeFormat('en-GB', {
+      timeZone: 'Europe/Zurich',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+      hour12: false
+    });
+    const parts = fmt.formatToParts(now);
+    const zhH = parseInt(parts.find(p => p.type === 'hour')!.value);
+    const zhM = parseInt(parts.find(p => p.type === 'minute')!.value);
+    const zhS = parseInt(parts.find(p => p.type === 'second')!.value);
+    const currentZhSeconds = zhH * 3600 + zhM * 60 + zhS;
+
+    const diffSeconds = targetTotalSeconds - currentZhSeconds;
+    if (diffSeconds < 0) return 'READY';
     
-    const diff = target.getTime() - now.getTime();
-    if (diff < 0) return 'READY';
+    const hours = Math.floor(diffSeconds / 3600);
+    const mins = Math.floor((diffSeconds % 3600) / 60);
+    const secs = diffSeconds % 60;
     
-    const hours = Math.floor(diff / 3600000);
-    const mins = Math.floor((diff % 3600000) / 60000);
-    const secs = Math.floor((diff % 60000) / 1000);
-    
-    return `${hours > 0 ? hours + 'h ' : ''}${mins}m ${secs}s`;
+    return `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   }, [next, now]);
 
   const timeToEnd = useMemo(() => {
     if (!current) return null;
     const [h, m] = current.endTime.split(':').map(Number);
-    const target = new Date(now);
-    target.setHours(h, m, 0);
+    const targetTotalSeconds = h * 3600 + m * 60;
+
+    const fmt = new Intl.DateTimeFormat('en-GB', {
+      timeZone: 'Europe/Zurich',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+      hour12: false
+    });
+    const parts = fmt.formatToParts(now);
+    const zhH = parseInt(parts.find(p => p.type === 'hour')!.value);
+    const zhM = parseInt(parts.find(p => p.type === 'minute')!.value);
+    const zhS = parseInt(parts.find(p => p.type === 'second')!.value);
+    const currentZhSeconds = zhH * 3600 + zhM * 60 + zhS;
+
+    const diffSeconds = targetTotalSeconds - currentZhSeconds;
+    if (diffSeconds < 0) return '00:00:00';
     
-    const diff = target.getTime() - now.getTime();
-    if (diff < 0) return '00:00:00';
-    
-    const hours = Math.floor(diff / 3600000);
-    const mins = Math.floor((diff % 3600000) / 60000);
-    const secs = Math.floor((diff % 60000) / 1000);
+    const hours = Math.floor(diffSeconds / 3600);
+    const mins = Math.floor((diffSeconds % 3600) / 60);
+    const secs = diffSeconds % 60;
     
     return `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   }, [current, now]);
 
   return (
-    <div className="modern-card p-5 h-full relative overflow-hidden flex flex-col justify-between">
+    <div className="modern-card p-8 h-full relative overflow-hidden flex flex-col justify-center">
       <div className="accent-glow opacity-5"></div>
       
       {!current && next ? (
-        <div className="absolute inset-0 bg-black/80 backdrop-blur-md z-10 flex flex-col items-center justify-center p-4 text-center">
-          <Zap className="w-6 h-6 text-purple-400 animate-pulse mb-3" />
-          <span className="label-mono text-[8px] text-purple-400 mb-1">Sequence Pending</span>
-          <div className="text-4xl font-heading font-black text-white tracking-tighter tabular-nums mb-2">
+        <div className="absolute inset-0 bg-black/90 backdrop-blur-2xl z-10 flex flex-col items-center justify-center p-8 text-center animate-in fade-in zoom-in duration-500">
+          <Zap className="w-10 h-10 text-purple-400 animate-pulse mb-6" />
+          <span className="text-[12px] font-black tracking-[0.5em] text-purple-400 mb-2 uppercase">Next Sequence Countdown</span>
+          <div className="text-7xl font-heading font-black text-white tracking-widest tabular-nums mb-6 drop-shadow-[0_0_30px_rgba(168,85,247,0.4)]">
             {timeToNext}
           </div>
-          <h3 className="text-sm font-bold text-white/90 truncate max-w-full px-4">{next.title}</h3>
+          <div className="bg-white/5 border border-white/10 px-6 py-3 rounded-2xl flex flex-col items-center gap-1">
+             <span className="text-[10px] text-purple-600 font-bold uppercase tracking-widest">Incoming Mission</span>
+             <h3 className="text-xl font-black text-white uppercase tracking-tight">{next.title}</h3>
+          </div>
         </div>
       ) : null}
 
-      <div className="flex justify-between items-start gap-4">
-        <div className="flex-1 space-y-2 overflow-hidden">
-          <div className="flex items-center gap-2">
-            <div className="flex items-center gap-1.5 bg-purple-500/10 border border-purple-500/30 px-2 py-0.5 rounded-full">
-              <div className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse"></div>
-              <span className="text-[8px] font-bold uppercase tracking-widest text-purple-300 whitespace-nowrap">Live Mission</span>
+      <div className="flex flex-col items-center text-center gap-8">
+        <div className="space-y-4 w-full">
+          <div className="flex items-center justify-center gap-3">
+            <div className="flex items-center gap-3 bg-purple-500/10 border border-purple-500/40 px-4 py-1.5 rounded-full">
+              <div className="w-2.5 h-2.5 rounded-full bg-purple-400 animate-pulse shadow-[0_0_10px_#a855f7]"></div>
+              <span className="text-[12px] font-black uppercase tracking-[0.3em] text-purple-300">Live Mission Trace</span>
             </div>
           </div>
 
-          <div className="flex items-center gap-6 flex-wrap">
-            <div className="flex-1 min-w-[200px]">
-              <h1 className="text-xl font-heading font-bold tracking-tight text-white leading-tight mb-1">
-                {current?.title || 'System Standby'}
-              </h1>
-              <div className="flex flex-wrap items-center gap-3 text-purple-300 text-[9px] font-medium uppercase tracking-widest">
-                <div className="flex items-center gap-1.5 bg-white/5 px-2 py-1 rounded-md">
-                  <MapPin className="w-3 h-3 text-purple-500" />
-                  <span className="truncate max-w-[120px]">{current?.location || 'BASE'}</span>
-                </div>
-                {current?.speaker && (
-                  <div className="flex items-center gap-1.5 bg-white/5 px-2 py-1 rounded-md">
-                    <User className="w-3 h-3 text-purple-500" />
-                    <span className="truncate max-w-[120px]">{current.speaker}</span>
-                  </div>
-                )}
+          <div className="flex flex-col items-center gap-4">
+            <h1 className="text-4xl font-heading font-black tracking-normal text-white uppercase leading-none">
+              {current?.title || 'System Standby'}
+            </h1>
+            <div className="flex justify-center flex-wrap items-center gap-6 text-purple-300 text-[12px] font-bold uppercase tracking-widest">
+              <div className="flex items-center gap-2.5 bg-white/5 px-4 py-2 rounded-xl border border-white/5">
+                <MapPin className="w-5 h-5 text-purple-500" />
+                <span>{current?.location || 'BASE'}</span>
               </div>
+              {current?.speaker && (
+                <div className="flex items-center gap-2.5 bg-white/5 px-4 py-2 rounded-xl border border-white/5">
+                  <User className="w-5 h-5 text-purple-500" />
+                  <span>{current.speaker}</span>
+                </div>
+              )}
             </div>
-            
-            {current && (
-              <div className="flex flex-col items-center px-6 py-3 bg-purple-950/40 border border-purple-400/60 rounded-2xl shadow-[0_0_40px_rgba(147,112,219,0.25)] animate-pulse-soft relative overflow-hidden group">
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-transparent pointer-events-none"></div>
-                <div className="flex items-center gap-2 mb-1.5 opacity-80">
-                  <ClockIcon className="w-3 h-3 text-purple-400" />
-                  <span className="text-[8px] font-black uppercase tracking-[0.3em] text-purple-400">Mission Clock</span>
-                </div>
-                <span className="text-4xl font-heading font-black text-white tabular-nums leading-none tracking-tighter glow-text-purple px-2">
-                  {timeToEnd}
-                </span>
-                <div className="w-full h-1 bg-black/60 mt-3 rounded-full overflow-hidden p-[1px] border border-white/5">
-                   <motion.div 
-                     className="h-full bg-gradient-to-r from-purple-600 to-purple-400 rounded-full"
-                     initial={{ width: "100%" }}
-                     animate={{ width: "0%" }}
-                   />
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-
-        <div className="flex flex-col items-end text-right shrink-0">
-          <span className="text-[8px] uppercase tracking-widest text-purple-500 font-bold mb-0.5">
-            {current ? 'Ends In' : 'Time to Next'}
-          </span>
-          <div className="text-2xl font-heading font-bold text-purple-500 tabular-nums leading-none">
-            {current ? timeToEnd : timeToNext}
-          </div>
-        </div>
-      </div>
-      
-      <div className="mt-4 space-y-2 shrink-0">
-        <div className="flex justify-between items-end">
-          <div className="flex flex-col">
-            <span className="text-[8px] font-mono text-purple-500 uppercase tracking-widest font-bold">Start</span>
-            <span className="text-sm font-heading font-bold text-white/90">{current?.startTime || '--:--'}</span>
-          </div>
-          <div className="flex flex-col items-center">
-            <span className="text-xl font-heading font-black text-purple-400 leading-none">{Math.round(progress)}%</span>
-          </div>
-          <div className="flex flex-col items-end">
-            <span className="text-[8px] font-mono text-purple-500 uppercase tracking-widest font-bold">End {current && <span className="text-[7px] text-purple-600 ml-1">({timeToEnd})</span>}</span>
-            <span className="text-sm font-heading font-bold text-white/90">{current?.endTime || '--:--'}</span>
           </div>
         </div>
         
-        <div className="h-2 w-full bg-black/60 rounded-full overflow-hidden border border-white/5 p-[1.5px] shadow-inner">
-          <motion.div 
-            className="h-full bg-gradient-to-r from-purple-700 via-purple-500 to-purple-400 rounded-full"
-            initial={{ width: 0 }}
-            animate={{ width: `${progress}%` }}
-            transition={{ type: 'spring', damping: 25, stiffness: 50 }}
-          />
+        {current && (
+          <div className="w-full flex flex-col items-center">
+            <div className="flex flex-col items-center px-16 py-8 bg-purple-950/40 border border-purple-400/60 rounded-[3rem] shadow-[0_0_60px_rgba(147,112,219,0.3)] animate-pulse-soft relative overflow-hidden group">
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-transparent pointer-events-none"></div>
+              <div className="flex items-center gap-3 mb-4 opacity-100">
+                <ClockIcon className="w-6 h-6 text-purple-400" />
+                <span className="text-[12px] font-black uppercase tracking-[0.5em] text-purple-400">Ends In Countdown</span>
+              </div>
+              <span className="text-8xl font-heading font-black text-white tabular-nums leading-none tracking-widest glow-text-purple px-10">
+                {timeToEnd}
+              </span>
+              <div className="w-full h-2 bg-black/60 mt-8 rounded-full overflow-hidden p-[2px] border border-white/10 shadow-inner">
+                 <motion.div 
+                   className="h-full bg-gradient-to-r from-purple-600 via-purple-400 to-purple-600 bg-[length:200%_100%] rounded-full shadow-[0_0_15px_rgba(168,85,247,0.5)]"
+                   initial={{ width: "100%" }}
+                   animate={{ 
+                     width: "0%",
+                     backgroundPosition: ["0% 0%", "100% 0%"]
+                   }}
+                   transition={{ 
+                     width: { duration: 0 },
+                     backgroundPosition: { duration: 3, repeat: Infinity, ease: "linear" }
+                   }}
+                   style={{ width: `${100 - progress}%` }}
+                 />
+              </div>
+            </div>
+          </div>
+        )}
+
+        <div className="w-full max-w-4xl space-y-6 mt-4">
+          <div className="flex justify-between items-center px-4">
+            <div className="flex flex-col items-start gap-1">
+              <span className="text-[11px] font-mono text-purple-500 uppercase tracking-[0.5em] font-black">Departure</span>
+              <span className="text-2xl font-heading font-black text-white tracking-[0.1em]">{current?.startTime || '--:--'}</span>
+            </div>
+            
+            <div className="flex flex-col items-center gap-2 bg-purple-500/10 px-8 py-3 rounded-2xl border border-purple-500/20">
+              <span className="text-4xl font-heading font-black text-purple-400 leading-none tracking-normal drop-shadow-[0_0_15px_rgba(168,85,247,0.6)]">
+                {Math.round(progress)}%
+              </span>
+              <span className="text-[10px] font-mono text-purple-600 uppercase tracking-[0.4em] font-black">Completion</span>
+            </div>
+
+            <div className="flex flex-col items-end gap-1">
+              <span className="text-[11px] font-mono text-purple-500 uppercase tracking-[0.5em] font-black">Arrival</span>
+              <span className="text-2xl font-heading font-black text-white tracking-[0.1em]">{current?.endTime || '--:--'}</span>
+            </div>
+          </div>
+          
+          <div className="h-3 w-full bg-black/60 rounded-full overflow-hidden border border-white/10 p-[2px] shadow-[inset_0_2px_10px_rgba(0,0,0,0.8)]">
+            <motion.div 
+              className="h-full bg-gradient-to-r from-purple-800 via-purple-500 to-purple-400 rounded-full shadow-[0_0_20px_rgba(168,85,247,0.3)]"
+              initial={{ width: 0 }}
+              animate={{ width: `${progress}%` }}
+              transition={{ type: 'spring', damping: 25, stiffness: 50 }}
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -528,7 +393,6 @@ export default function App() {
   const [simTimeInput, setSimTimeInput] = useState('16:00');
   
   const [selectedSession, setSelectedSession] = useState<Session | null>(null);
-  const [selectedLEDMedia, setSelectedLEDMedia] = useState<LEDMedia | null>(null);
   const [scheduledDay, setScheduledDay] = useState(() => {
     const d = new Date();
     if (d.getDate() === 22) return 1;
@@ -686,21 +550,21 @@ export default function App() {
         </div>
       </header>
 
-      <main className="flex-1 p-4 max-w-[1800px] mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-4 overflow-hidden">
+      <main className="flex-1 p-4 max-w-[1800px] mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-6 overflow-hidden">
         {/* Left: Schedule Feed */}
-        <div className="lg:col-span-3 h-full flex flex-col overflow-hidden">
-          <div className="modern-card flex-1 flex flex-col p-4 overflow-hidden">
-            <div className="flex justify-between items-center mb-4">
+        <div className="lg:col-span-4 h-full flex flex-col overflow-hidden">
+          <div className="modern-card flex-1 flex flex-col p-6 overflow-hidden">
+            <div className="flex justify-between items-center mb-6">
               <div className="flex gap-2 items-center">
-                <LayoutIcon className="w-3.5 h-3.5 text-purple-400" />
-                <h2 className="text-[10px] font-bold uppercase tracking-widest text-white/70">Sequence</h2>
+                <LayoutIcon className="w-4 h-4 text-purple-400" />
+                <h2 className="text-[12px] font-black uppercase tracking-[0.4em] text-white/80">Sequence</h2>
               </div>
-              <div className="flex gap-1 bg-black/40 p-1 rounded-lg border border-white/5">
+              <div className="flex gap-1.5 bg-black/60 p-1.5 rounded-xl border border-white/5 shadow-inner">
                 {[1, 2, 3].map(d => (
                   <button 
                     key={d}
                     onClick={() => setScheduledDay(d)}
-                    className={`px-2 py-0.5 rounded-md text-[9px] font-bold transition-all ${scheduledDay === d ? 'bg-purple-600 text-white' : 'text-purple-500 hover:text-purple-300'}`}
+                    className={`px-3 py-1 rounded-lg text-[10px] font-black transition-all tracking-[0.1em] ${scheduledDay === d ? 'bg-purple-600 text-white shadow-lg shadow-purple-500/20' : 'text-purple-600 hover:text-purple-400'}`}
                   >
                     D{d}
                   </button>
@@ -708,7 +572,7 @@ export default function App() {
               </div>
             </div>
             
-            <div className="flex-1 overflow-y-auto pr-1 space-y-2 custom-scrollbar">
+            <div className="flex-1 overflow-y-auto pr-2 space-y-3 custom-scrollbar">
               <AnimatePresence mode="popLayout">
                 {dailySchedule.map((session, index) => {
                   const isCurrent = currentSession?.id === session.id;
@@ -721,11 +585,11 @@ export default function App() {
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: index * 0.02 }}
                       onClick={() => setSelectedSession(session)}
-                      className={`p-3 rounded-lg border transition-all cursor-pointer relative group ${isCurrent ? 'bg-purple-500/10 border-purple-400/30' : 'bg-purple-900/10 border-white/5 hover:border-purple-500/10'} ${isPast ? 'opacity-30' : ''}`}
+                      className={`p-4 rounded-xl border transition-all cursor-pointer relative group ${isCurrent ? 'bg-purple-500/20 border-purple-400/50 shadow-lg shadow-purple-500/10' : 'bg-purple-900/10 border-white/5 hover:border-purple-500/20'} ${isPast ? 'opacity-30' : ''}`}
                     >
-                      <div className="flex flex-col gap-1">
-                        <span className={`label-mono text-[8px] ${isCurrent ? 'text-purple-400' : 'text-purple-600'}`}>{session.startTime} — {session.endTime}</span>
-                        <h3 className={`text-[11px] font-bold leading-tight ${isCurrent ? 'text-white' : 'text-purple-200'}`}>{session.title}</h3>
+                      <div className="flex flex-col gap-2">
+                        <span className={`label-mono text-[10px] font-black tracking-[0.2em] ${isCurrent ? 'text-purple-400' : 'text-purple-700'}`}>{session.startTime} — {session.endTime}</span>
+                        <h3 className={`text-[13px] font-black leading-tight tracking-wide ${isCurrent ? 'text-white' : 'text-purple-200'}`}>{session.title.toUpperCase()}</h3>
                       </div>
                     </motion.div>
                   );
@@ -736,35 +600,15 @@ export default function App() {
         </div>
 
         {/* Center/Right: Detailed Monitors */}
-        <div className="lg:col-span-9 flex flex-col gap-4 overflow-hidden h-full">
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 shrink-0">
-            <div className="lg:col-span-3">
-              <SessionProgress current={currentSession} next={upcomingSessions[0] || null} />
-            </div>
-            
-            <div className="flex flex-col gap-4 h-full">
-              <div className="modern-card p-4 flex flex-col justify-center items-center gap-1 relative group flex-1">
-                <div className="accent-glow group-hover:opacity-10 transition-opacity"></div>
-                <span className="label-mono text-[8px]">Deployment Day</span>
-                <div className="text-5xl font-heading font-black text-white glow-text-purple">
-                  0{currentSession?.day || scheduledDay}
-                </div>
-                <div className="flex items-center gap-2 mt-2 px-3 py-1 bg-purple-500/10 rounded-full border border-white/5">
-                  <Activity className="w-2.5 h-2.5 text-purple-400 animate-pulse" />
-                  <span className="text-[9px] text-purple-200 font-bold uppercase tracking-widest leading-none">ACTIVE</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="flex-1 overflow-hidden">
-            <LEDPreview session={selectedSession || currentSession} onMediaClick={(item) => setSelectedLEDMedia(item)} />
+        <div className="lg:col-span-8 flex flex-col gap-4 overflow-hidden h-full">
+          <div className="flex-1 min-h-0">
+            <SessionProgress current={currentSession} next={upcomingSessions[0] || null} now={now} />
           </div>
         </div>
       </main>
 
-      <footer className="p-2 border-t border-white/5 bg-black">
-        <div className="max-w-[1800px] mx-auto flex items-center justify-between text-[8px] text-purple-600 font-bold uppercase tracking-[0.3em]">
+      <footer className="p-3 border-t border-white/5 bg-black">
+        <div className="max-w-[1800px] mx-auto flex items-center justify-between text-[11px] text-purple-600 font-bold uppercase tracking-[0.5em]">
           <div className="flex items-center gap-2">
              <span className="text-white/40">ALCOTT GLOBAL</span>
              <span>MISSION CONTROL 2026</span>
@@ -784,12 +628,6 @@ export default function App() {
           <SessionDetailModal 
             session={selectedSession} 
             onClose={() => setSelectedSession(null)} 
-          />
-        )}
-        {selectedLEDMedia && (
-          <LEDDetailModal 
-            media={selectedLEDMedia} 
-            onClose={() => setSelectedLEDMedia(null)} 
           />
         )}
       </AnimatePresence>
